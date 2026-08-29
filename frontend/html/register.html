@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Account — PDSChain</title>
+<meta name="description" content="Register for a PDSChain account to join the transparent, blockchain-powered Public Distribution network." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/animations.css" />
+<link rel="stylesheet" href="../css/auth.css" />
+</head>
+<body>
+<a href="#register-main" class="skip-link">Skip to content</a>
+
+<!-- ============== AUTH TOPBAR ============== -->
+<header class="auth-topbar">
+  <div class="container">
+    <a href="index.html" class="back-link"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Home</a>
+    <div class="auth-topbar-actions">
+      <span>Already have an account?</span>
+      <a href="login.html">Sign In</a>
+    </div>
+  </div>
+</header>
+
+<main id="register-main" class="auth-shell is-centered">
+  <div class="auth-form-wrap is-wide">
+    <div id="register-card-body">
+
+      <div class="auth-form-header" data-reveal>
+        <span class="eyebrow">PDSChain Secure Access</span>
+        <h1>Create your PDSChain account.</h1>
+        <p>Join the trusted digital distribution network.</p>
+      </div>
+
+      <div class="form-status" id="register-status" role="alert" hidden></div>
+
+      <form id="register-form" novalidate data-reveal>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <input class="form-input" type="text" id="reg-name" name="fullName" placeholder="Enter your full name" autocomplete="name" />
+            <div class="form-hint" aria-live="polite"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input class="form-input" type="email" id="reg-email" name="email" placeholder="you@example.com" autocomplete="email" />
+            <div class="form-hint" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="reg-phone">Phone Number</label>
+            <input class="form-input" type="tel" id="reg-phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" />
+            <div class="form-hint" aria-live="polite"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-org">Organization / Shop / Warehouse ID <span class="optional">(if applicable)</span></label>
+            <input class="form-input" type="text" id="reg-org" name="orgId" placeholder="e.g. WH-003 or FPS-102" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password</label>
+            <div class="input-wrap">
+              <input class="form-input has-icon" type="password" id="reg-password" name="password" placeholder="Create a password" autocomplete="new-password" />
+              <button class="input-icon-btn" type="button" data-toggle-password="reg-password" aria-label="Show password">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="form-hint" aria-live="polite"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm">Confirm Password</label>
+            <div class="input-wrap">
+              <input class="form-input has-icon" type="password" id="reg-confirm" name="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password" />
+              <button class="input-icon-btn" type="button" data-toggle-password="reg-confirm" aria-label="Show password">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="form-hint" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="pw-strength" id="pw-strength" data-level="0">
+          <div class="pw-strength-track">
+            <span class="pw-strength-seg"></span>
+            <span class="pw-strength-seg"></span>
+            <span class="pw-strength-seg"></span>
+          </div>
+          <div class="pw-strength-label">Password strength</div>
+          <ul class="pw-requirements">
+            <li data-req="length"><i class="bi bi-circle" aria-hidden="true"></i> 8+ characters</li>
+            <li data-req="upper"><i class="bi bi-circle" aria-hidden="true"></i> Uppercase letter</li>
+            <li data-req="lower"><i class="bi bi-circle" aria-hidden="true"></i> Lowercase letter</li>
+            <li data-req="number"><i class="bi bi-circle" aria-hidden="true"></i> Number</li>
+          </ul>
+        </div>
+
+        <div class="form-group" style="margin-top:24px;">
+          <label class="form-label" for="reg-address">Address</label>
+          <textarea class="form-input" id="reg-address" name="address" placeholder="Street, city, state, PIN code" autocomplete="street-address"></textarea>
+          <div class="form-hint" aria-live="polite"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <div class="role-grid">
+            <label class="role-card">
+              <input type="radio" name="role" value="citizen" />
+              <span class="role-radio"></span>
+              <span class="role-name">Citizen / Beneficiary</span>
+              <div class="role-note">Access entitlements &amp; history</div>
+            </label>
+            <label class="role-card">
+              <input type="radio" name="role" value="warehouse" />
+              <span class="role-radio"></span>
+              <span class="role-name">Warehouse Officer</span>
+              <div class="role-note">Requires approval</div>
+            </label>
+            <label class="role-card">
+              <input type="radio" name="role" value="shop" />
+              <span class="role-radio"></span>
+              <span class="role-name">Fair Price Shop Officer</span>
+              <div class="role-note">Requires approval</div>
+            </label>
+            <label class="role-card">
+              <input type="radio" name="role" value="auditor" />
+              <span class="role-radio"></span>
+              <span class="role-name">Auditor</span>
+              <div class="role-note">Requires approval</div>
+            </label>
+          </div>
+
+          <div class="privileged-note">
+            <i class="bi bi-shield-exclamation" aria-hidden="true"></i>
+            <span>Privileged roles require administrator approval. Administrator and Blockchain Validator accounts cannot be self-registered and are assigned by an administrator.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="register-submit" style="margin-top:8px;">
+          Create Account <i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </button>
+      </form>
+
+      <p class="auth-switch" data-reveal>Already have an account? <a href="login.html">Sign in</a></p>
+
+      <div class="security-note" data-reveal>
+        <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+        Protected by permissioned blockchain infrastructure.
+      </div>
+      <p class="backend-note">Authentication and authorization are enforced by the backend in the production architecture. This screen is a frontend prototype only.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="auth-footer">
+  <div class="container">
+    <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+  </div>
+</footer>
+
+<script src="../js/main.js" defer></script>
+<script src="../js/auth.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* ==========================================================
+   PDSCHAIN — ANIMATION LAYER
+   ========================================================== */
+
+/* ---------- Scroll reveal base ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease, cubic-bezier(0.22,1,0.36,1)),
+              transform 0.7s var(--ease, cubic-bezier(0.22,1,0.36,1));
+}
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+[data-reveal="scale"] { transform: scale(0.96); }
+[data-reveal="scale"].is-visible { transform: scale(1); }
+
+[data-reveal-group] > * { transition-delay: calc(var(--i, 0) * 90ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { transform: translateY(28px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes nodePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.45); }
+  70% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+}
+
+@keyframes lineFlow {
+  to { stroke-dashoffset: -120; }
+}
+
+@keyframes blockReveal {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: var(--shadow-glow); }
+  50% { box-shadow: 0 0 0 1px rgba(79,107,255,0.4), 0 0 60px rgba(79,107,255,0.25); }
+}
+
+@keyframes hoverLift {
+  to { transform: translateY(-4px); }
+}
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Applied animation classes ---------- */
+.anim-fade-in { animation: fadeIn 0.8s var(--ease) both; }
+.anim-fade-up { animation: fadeUp 0.8s var(--ease) both; }
+.anim-slide-up { animation: slideUp 0.8s var(--ease) both; }
+.anim-glow { animation: glow 4.5s ease-in-out infinite; }
+
+.hero-copy > * { animation: fadeUp 0.8s var(--ease) both; }
+.hero-copy > *:nth-child(1) { animation-delay: 0.02s; }
+.hero-copy > *:nth-child(2) { animation-delay: 0.10s; }
+.hero-copy > *:nth-child(3) { animation-delay: 0.18s; }
+.hero-copy > *:nth-child(4) { animation-delay: 0.26s; }
+.hero-copy > *:nth-child(5) { animation-delay: 0.34s; }
+
+.block-card { animation: blockReveal 0.9s var(--ease) 0.3s both, glow 5s ease-in-out 1.2s infinite; }
+.orbit-node { animation-name: float; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy > *,
+  .block-card,
+  .orbit-node,
+  .anim-fade-in, .anim-fade-up, .anim-slide-up, .anim-glow {
+    animation: none !important;
+  }
+}
