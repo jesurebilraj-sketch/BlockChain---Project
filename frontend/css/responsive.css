@@ -1,0 +1,92 @@
+/* ==========================================================
+   PDSCHAIN — RESPONSIVE CSS
+   Shared breakpoints for dashboard and auth layouts.
+   ========================================================== */
+
+@media (max-width: 1200px) {
+  .content-grid.even,
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-grid.cols-6,
+  .kpi-grid.cols-5,
+  .kpi-grid.cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    padding: 24px 16px 48px;
+  }
+
+  .auth-brand-panel {
+    padding: 26px 18px 18px;
+  }
+
+  .auth-form-wrap {
+    max-width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-content {
+    padding: 20px 16px 52px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 10px 14px;
+  }
+
+  .nav-links,
+  .auth-topbar-actions {
+    display: none;
+  }
+
+  .topbar-search {
+    display: none;
+  }
+
+  .kpi-grid.cols-6,
+  .kpi-grid.cols-5,
+  .kpi-grid.cols-4,
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-sidebar {
+    width: min(82vw, 272px);
+  }
+
+  .user-menu-btn .user-menu-text {
+    display: none;
+  }
+
+  .auth-form-header h1 {
+    font-size: 2rem;
+  }
+
+  .verify-search-row {
+    grid-template-columns: 1fr;
+  }
+}

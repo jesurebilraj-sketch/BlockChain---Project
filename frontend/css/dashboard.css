@@ -1,0 +1,102 @@
+/* ==========================================================
+   PDSCHAIN — DASHBOARD SHELL (Stage 3)
+   Sidebar + topbar + content grid shared by all role dashboards.
+   ========================================================== */
+
+:root {
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 76px;
+}
+
+body.dash-body {
+  background: var(--bg-tertiary);
+  min-height: 100vh;
+}
+:root[data-theme="light"] body.dash-body { background: #f2f4f9; }
+
+.dash-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns var(--dur-base) var(--ease);
+}
+.dash-shell.is-collapsed { grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
+
+/* ---------- SIDEBAR ---------- */
+.dash-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--navy-950);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  z-index: 50;
+}
+:root[data-theme="light"] .dash-sidebar { background: #0b1020; }
+
+.sidebar-head {
+  display: flex; align-items: center; gap: 10px;
+  height: var(--nav-h);
+  padding: 0 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-head .brand { color: #f4f6fc; white-space: nowrap; overflow: hidden; }
+.dash-shell.is-collapsed .sidebar-head .brand span.label { display: none; }
+
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 16px 12px; }
+.sidebar-group-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #6a7390; padding: 14px 12px 8px;
+}
+.dash-shell.is-collapsed .sidebar-group-label { text-align: center; padding: 12px 4px 6px; }
+.sidebar-nav ul { display: grid; gap: 2px; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px; font-weight: 500;
+  color: #a7b0c7;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.sidebar-link i { font-size: 16px; width: 18px; text-align: center; flex-shrink: 0; }
+.sidebar-link span { overflow: hidden; text-overflow: ellipsis; }
+.sidebar-link:hover { background: rgba(255,255,255,0.05); color: #f0f2f9; }
+.sidebar-link.is-active { background: linear-gradient(90deg, rgba(79,107,255,0.22), rgba(79,107,255,0.02)); color: #fff; box-shadow: inset 2px 0 0 var(--indigo-400); }
+.dash-shell.is-collapsed .sidebar-link span { display: none; }
+.dash-shell.is-collapsed .sidebar-link { justify-content: center; }
+
+.sidebar-foot { padding: 14px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+.sidebar-status { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); font-size: 12px; color: #a7b0c7; }
+.sidebar-status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex-shrink: 0; animation: nodePulse 2.2s ease-in-out infinite; }
+.dash-shell.is-collapsed .sidebar-status span.label { display: none; }
+.dash-shell.is-collapsed .sidebar-status { justify-content: center; }
+
+/* ---------- MAIN ---------- */
+.dash-main { display: flex; flex-direction: column; min-width: 0; }
+.dash-content { padding: 28px 28px 64px; max-width: 1400px; width: 100%; }
+
+/* ---------- MOBILE DRAWER OVERLAY ---------- */
+.dash-overlay {
+  position: fixed; inset: 0; background: rgba(4,6,14,0.6);
+  z-index: 45; opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease);
+}
+.dash-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+/* ---------- RESPONSIVE HOOKS (structural, mirrored in responsive.css for breakpoints) ---------- */
+@media (max-width: 1024px) {
+  .dash-shell { grid-template-columns: 1fr; }
+  .dash-sidebar {
+    position: fixed; left: 0; top: 0; width: var(--sidebar-w);
+    transform: translateX(-100%);
+    transition: transform var(--dur-base) var(--ease);
+  }
+  .dash-sidebar.is-open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  .sidebar-toggle-btn { display: none; }
+  .drawer-toggle-btn { display: grid; }
+}

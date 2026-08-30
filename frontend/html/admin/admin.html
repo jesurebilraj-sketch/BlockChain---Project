@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard — PDSChain</title>
+<meta name="description" content="PDSChain administrator dashboard: network-wide KPIs, analytics, blockchain health and validator status." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+      <a href="admin.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="admin.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i><span>Dashboard</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-people" aria-hidden="true"></i><span>Users</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Beneficiaries</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Network</div>
+      <ul>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-shop" aria-hidden="true"></i><span>Fair Price Shops</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-building" aria-hidden="true"></i><span>Warehouses</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-hdd-network" aria-hidden="true"></i><span>Validators</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger</div>
+      <ul>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-arrow-left-right" aria-hidden="true"></i><span>Transactions</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-diagram-3" aria-hidden="true"></i><span>Blockchain</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Insights</div>
+      <ul>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-bar-chart" aria-hidden="true"></i><span>Analytics</span></a></li>
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-file-earmark-text" aria-hidden="true"></i><span>Reports</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="#" class="sidebar-link" data-soon><i class="bi bi-gear" aria-hidden="true"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">Network Operational</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar" aria-hidden="true"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search" aria-hidden="true"></i>
+        <input type="search" placeholder="Search transactions, shops, warehouses…" aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon" aria-hidden="true"></i>
+          <i class="bi bi-sun icon-sun" aria-hidden="true"></i>
+        </button>
+        <button class="icon-btn" type="button" aria-label="Help"><i class="bi bi-question-circle" aria-hidden="true"></i></button>
+
+        <div class="dropdown-wrap">
+          <button class="icon-btn" type="button" data-dropdown="notif-panel" aria-haspopup="true" aria-expanded="false" aria-label="Notifications">
+            <i class="bi bi-bell" aria-hidden="true"></i><span class="dot-badge"></span>
+          </button>
+          <div class="dropdown-panel is-wide" id="notif-panel">
+            <div class="dropdown-head">Notifications <span class="count">3 new</span></div>
+            <div class="dropdown-list">
+              <div class="dropdown-item"><i class="bi bi-exclamation-triangle-fill" style="color:var(--warning);" aria-hidden="true"></i><div><strong style="display:block;font-size:13px;">Low inventory at WH-004</strong><span style="font-size:12px;color:var(--text-muted);">Rice stock below threshold · 6 min ago</span></div></div>
+              <div class="dropdown-item"><i class="bi bi-hdd-network" style="color:var(--indigo-300);" aria-hidden="true"></i><div><strong style="display:block;font-size:13px;">Validator N07 offline</strong><span style="font-size:12px;color:var(--text-muted);">Consensus unaffected · 18 min ago</span></div></div>
+              <div class="dropdown-item"><i class="bi bi-check-circle-fill" style="color:var(--success);" aria-hidden="true"></i><div><strong style="display:block;font-size:13px;">Block #4281 verified</strong><span style="font-size:12px;color:var(--text-muted);">1,284 transactions recorded · 32 min ago</span></div></div>
+            </div>
+            <div class="dropdown-foot">View all notifications</div>
+          </div>
+        </div>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel" aria-haspopup="true" aria-expanded="false">
+            <span class="avatar">GA</span>
+            <span class="user-menu-text"><span class="name">Administrator</span><span class="role">Government Authority</span></span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="#"><i class="bi bi-person" aria-hidden="true"></i> My Profile</a>
+            <a href="#"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header" data-reveal>
+        <div>
+          <h1>Good morning, Administrator.</h1>
+          <p>Here's what's happening across the PDS network.</p>
+        </div>
+        <div class="page-header-meta">
+          <span class="meta-chip"><i class="bi bi-calendar3" aria-hidden="true"></i> 30 Aug 2026</span>
+          <span class="meta-chip"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> All systems operational</span>
+        </div>
+      </div>
+
+      <!-- ============== KPI GRID ============== -->
+      <div class="kpi-grid cols-6" data-reveal-group>
+        <div class="stat-card" data-reveal style="--i:0">
+          <div class="stat-card-top"><span class="stat-card-label">Total Beneficiaries</span><span class="icon-tile"><i class="bi bi-people-fill" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value" data-counter="342891">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short" aria-hidden="true"></i>12.4%</span><span class="caption">vs last month</span></div>
+        </div>
+        <div class="stat-card" data-reveal style="--i:1">
+          <div class="stat-card-top"><span class="stat-card-label">Active Fair Price Shops</span><span class="icon-tile"><i class="bi bi-shop" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value" data-counter="1248">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short" aria-hidden="true"></i>4.8%</span><span class="caption">vs last month</span></div>
+        </div>
+        <div class="stat-card" data-reveal style="--i:2">
+          <div class="stat-card-top"><span class="stat-card-label">Warehouses</span><span class="icon-tile"><i class="bi bi-building" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value" data-counter="86">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short" aria-hidden="true"></i>2.1%</span><span class="caption">vs last month</span></div>
+        </div>
+        <div class="stat-card" data-reveal style="--i:3">
+          <div class="stat-card-top"><span class="stat-card-label">Transactions Today</span><span class="icon-tile"><i class="bi bi-arrow-left-right" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value" data-counter="8421">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short" aria-hidden="true"></i>8.7%</span><span class="caption">vs last month</span></div>
+        </div>
+        <div class="stat-card" data-reveal style="--i:4">
+          <div class="stat-card-top"><span class="stat-card-label">Blockchain Height</span><span class="icon-tile"><i class="bi bi-diagram-3" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value" data-counter="4281">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-plus-lg" aria-hidden="true"></i>24 blocks</span><span class="caption">today</span></div>
+        </div>
+        <div class="stat-card" data-reveal style="--i:5">
+          <div class="stat-card-top"><span class="stat-card-label">Active Validators</span><span class="icon-tile"><i class="bi bi-hdd-network" aria-hidden="true"></i></span></div>
+          <div class="stat-card-value">12 / 12</div>
+          <div class="stat-card-foot"><span class="trend is-flat"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>100%</span><span class="caption">online</span></div>
+        </div>
+      </div>
+
+      <!-- ============== ANALYTICS ============== -->
+      <div class="content-grid even">
+        <div class="chart-card" data-reveal>
+          <div class="chart-card-head">
+            <div><h3>Distribution Volume</h3><p>Rice, wheat and other grains moved network-wide.</p></div>
+            <div class="filter-tabs" id="dist-filter" role="tablist" aria-label="Distribution volume range">
+              <button type="button" class="is-active" data-range="7D">7D</button>
+              <button type="button" data-range="30D">30D</button>
+              <button type="button" data-range="3M">3M</button>
+              <button type="button" data-range="1Y">1Y</button>
+            </div>
+          </div>
+          <div class="chart-canvas-wrap" data-loading="true">
+            <div class="skeleton-wrap"><div class="skeleton skeleton-block" style="height:220px;"></div></div>
+            <canvas id="distribution-chart" class="skeleton-target"></canvas>
+          </div>
+          <div class="chart-legend-inline">
+            <span><span class="dot" style="background:var(--indigo-400);"></span>Rice</span>
+            <span><span class="dot" style="background:var(--teal-400);"></span>Wheat</span>
+            <span><span class="dot" style="background:var(--warning);"></span>Other Grains</span>
+          </div>
+        </div>
+
+        <div class="chart-card" data-reveal style="--i:1">
+          <div class="chart-card-head">
+            <div><h3>Transactions</h3><p>Transaction volume over time.</p></div>
+          </div>
+          <div class="chart-canvas-wrap" data-loading="true">
+            <div class="skeleton-wrap"><div class="skeleton skeleton-block" style="height:220px;"></div></div>
+            <canvas id="transactions-chart" class="skeleton-target"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== NETWORK HEALTH + ALERTS ============== -->
+      <div class="content-grid even">
+        <div class="panel" data-reveal>
+          <div class="panel-head"><div><span class="panel-title">Network Status</span><div class="panel-desc">Live consensus and ledger health.</div></div><span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Operational</span></div>
+          <div class="fba-status-list">
+            <div class="fba-status-row"><span class="label"><i class="bi bi-hdd-network" aria-hidden="true"></i> Validators</span><span class="badge badge-success">12 / 12 Online</span></div>
+            <div class="fba-status-row"><span class="label"><i class="bi bi-activity" aria-hidden="true"></i> Consensus</span><span class="badge badge-success">Healthy</span></div>
+            <div class="fba-status-row"><span class="label"><i class="bi bi-diagram-3" aria-hidden="true"></i> Latest Block</span><span class="badge badge-info mono">#4281</span></div>
+            <div class="fba-status-row"><span class="label"><i class="bi bi-stopwatch" aria-hidden="true"></i> Block Time</span><span class="badge">2.4 sec</span></div>
+            <div class="fba-status-row"><span class="label"><i class="bi bi-shield-check" aria-hidden="true"></i> Network Integrity</span><span class="badge badge-success">99.9%</span></div>
+          </div>
+        </div>
+
+        <div class="panel" data-reveal style="--i:1">
+          <div class="panel-head"><div><span class="panel-title">Alerts</span><div class="panel-desc">Items that may need your attention.</div></div></div>
+          <div class="alert-card is-warning">
+            <span class="alert-icon"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i></span>
+            <div class="alert-body"><div class="alert-title">Low Inventory</div><div>Warehouse <strong>WH-004</strong> — rice stock below threshold.</div></div>
+          </div>
+          <div class="alert-card is-info">
+            <span class="alert-icon"><i class="bi bi-hdd-network" aria-hidden="true"></i></span>
+            <div class="alert-body"><div class="alert-title">Network Notice</div><div>Validator <strong>N07</strong> temporarily unavailable.</div></div>
+          </div>
+          <div class="alert-card is-success">
+            <span class="alert-icon"><i class="bi bi-check-circle-fill" aria-hidden="true"></i></span>
+            <div class="alert-body"><div class="alert-title">System</div><div>All other validators operational.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== RECENT TRANSACTIONS ============== -->
+      <div class="section-block">
+        <div class="section-block-head"><div><h2>Recent Transactions</h2><div class="sub">Latest verified movements across the network.</div></div><a href="#" class="panel-action" data-soon>View all <i class="bi bi-arrow-right" aria-hidden="true"></i></a></div>
+        <div class="table-card" data-reveal>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Transaction</th><th>From</th><th>To</th><th>Item</th><th>Quantity</th><th>Block</th><th>Status</th><th>Time</th><th></th></tr></thead>
+              <tbody id="admin-tx-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== BLOCKCHAIN + VALIDATORS ============== -->
+      <div class="content-grid even">
+        <div class="panel" data-reveal>
+          <div class="panel-head"><div><span class="panel-title">Blockchain Preview</span><div class="panel-desc">Most recently verified blocks.</div></div></div>
+          <div class="chain-track">
+            <div class="chain-block is-latest">
+              <div class="chain-block-label">Latest</div>
+              <div class="chain-block-id">#4281</div>
+              <div class="chain-block-row"><span>Transactions</span><span>1,284</span></div>
+              <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">91f2...aa91</span></div>
+              <div class="chain-block-row"><span>Validators</span><span>12 / 12</span></div>
+              <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+            </div>
+            <div class="chain-block">
+              <div class="chain-block-label">Block</div>
+              <div class="chain-block-id">#4280</div>
+              <div class="chain-block-row"><span>Transactions</span><span>318</span></div>
+              <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">7ac1...4d02</span></div>
+              <div class="chain-block-row"><span>Validators</span><span>12 / 12</span></div>
+              <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+            </div>
+            <div class="chain-block">
+              <div class="chain-block-label">Block</div>
+              <div class="chain-block-id">#4279</div>
+              <div class="chain-block-row"><span>Transactions</span><span>402</span></div>
+              <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">c30e...118f</span></div>
+              <div class="chain-block-row"><span>Validators</span><span>11 / 12</span></div>
+              <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+            </div>
+            <div class="chain-block">
+              <div class="chain-block-label">Block</div>
+              <div class="chain-block-id">#4278</div>
+              <div class="chain-block-row"><span>Transactions</span><span>276</span></div>
+              <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">a04b...9e21</span></div>
+              <div class="chain-block-row"><span>Validators</span><span>12 / 12</span></div>
+              <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+            </div>
+          </div>
+          <div class="chain-cta"><a href="#" class="btn btn-primary" data-soon>Open Blockchain Explorer <i class="bi bi-arrow-right" aria-hidden="true"></i></a></div>
+        </div>
+
+        <div class="panel" data-reveal style="--i:1">
+          <div class="panel-head"><div><span class="panel-title">Validator Network</span><div class="panel-desc">12 authorized nodes · FBA consensus.</div></div><span class="badge badge-success">12 / 12 Online</span></div>
+          <div class="node-grid">
+            <div class="node-cell"><span class="dot"></span><span>N01</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N02</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N03</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N04</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N05</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N06</span></div>
+            <div class="node-cell is-pending"><span class="dot"></span><span>N07</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N08</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N09</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N10</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N11</span></div>
+            <div class="node-cell"><span class="dot"></span><span>N12</span></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/charts.js"></script>
+<script src="../../js/admin.js"></script>
+</body>
+</html>

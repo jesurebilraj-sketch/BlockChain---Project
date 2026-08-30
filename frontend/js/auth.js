@@ -15,12 +15,12 @@
   var DEMO_ACCOUNT = { id: "admin@pdschain.local", password: "Admin@123", role: "admin" };
 
   var ROLE_REDIRECTS = {
-    admin: "admin.html",
-    warehouse: "warehouse.html",
-    shop: "shop.html",
-    citizen: "citizen.html",
-    validator: "validator.html",
-    auditor: "auditor.html"
+    admin: "admin/admin.html",
+    warehouse: "admin/warehouse.html",
+    shop: "admin/shop.html",
+    citizen: "admin/citizen.html",
+    validator: "admin/validator.html",
+    auditor: "admin/auditor.html"
   };
 
   /* ---------- Shared: password visibility toggle ---------- */
@@ -153,7 +153,17 @@
           "Authenticated. Redirecting you to the " + (roleValue || "admin") + " workspace\u2026"
         );
 
-        var destination = ROLE_REDIRECTS[roleValue] || "admin.html";
+        // Store user info in session storage
+        var userInfo = {
+          id: idValue,
+          role: roleValue,
+          name: roleValue.charAt(0).toUpperCase() + roleValue.slice(1),
+          email: idValue,
+          timestamp: new Date().toISOString()
+        };
+        sessionStorage.setItem("pdschain-user", JSON.stringify(userInfo));
+
+        var destination = ROLE_REDIRECTS[roleValue] || "admin/admin.html";
         window.setTimeout(function () {
           // Stage 1/2 prototype: destination page is prepared for a later stage.
           window.location.href = destination;
