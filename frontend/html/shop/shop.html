@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fair Price Shop Dashboard — PDSChain</title>
+<meta name="description" content="PDSChain Fair Price Shop dashboard: citizen ration distribution, beneficiary verification, and inventory." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/shop.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="shop.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="shop.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="distribution.html" class="sidebar-link"><i class="bi bi-cart-check-fill"></i><span>Distribute Rations</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Citizens &amp; Stock</div>
+      <ul>
+        <li><a href="beneficiaries.html" class="sidebar-link"><i class="bi bi-person-check-fill"></i><span>Verify Citizen</span></a></li>
+        <li><a href="inventory.html" class="sidebar-link"><i class="bi bi-boxes"></i><span>Shop Inventory</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Txn</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">FPS-102 Online</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search beneficiaries (e.g. BEN-1024)..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">FS</span>
+            <span class="user-menu-text"><span class="name">FPS Officer</span><span class="role">FPS-102 Central Bazaar</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Fair Price Shop Distribution Centre</h1>
+          <p>FPS-102 Central Bazaar Ration Depot — Supervise ration disbursement and on-chain verification.</p>
+        </div>
+        <a href="distribution.html" class="btn btn-primary">
+          <i class="bi bi-cart-plus-fill"></i> New Distribution Stepper
+        </a>
+      </div>
+
+      <!-- Quick KPI Strip -->
+      <div class="kpi-grid cols-4">
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Distributions Today</span><span class="icon-tile"><i class="bi bi-cart-check"></i></span></div>
+          <div class="stat-card-value" data-counter="84">0</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short"></i>+14.2%</span><span class="caption">vs yesterday</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Registered Citizens</span><span class="icon-tile is-teal"><i class="bi bi-people"></i></span></div>
+          <div class="stat-card-value" data-counter="1850">0</div>
+          <div class="stat-card-foot"><span class="caption">Assigned to FPS-102</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Rice Stock Balance</span><span class="icon-tile is-warning"><i class="bi bi-basket"></i></span></div>
+          <div class="stat-card-value">1,450 KG</div>
+          <div class="stat-card-foot"><span class="trend is-flat">Optimal reserve</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Consensus Latency</span><span class="icon-tile"><i class="bi bi-lightning-charge"></i></span></div>
+          <div class="stat-card-value">2.4 sec</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-check"></i> Instant</span></div>
+        </div>
+      </div>
+
+      <!-- Quick Beneficiary Verification Card -->
+      <div class="verify-search-card" style="margin-bottom:28px;">
+        <label class="form-label" for="beneficiary-search-input">Quick Citizen Verification (Search Beneficiary ID e.g. BEN-1001, BEN-1024, BEN-1003):</label>
+        <div class="verify-search-row">
+          <input type="text" class="form-input" id="beneficiary-search-input" placeholder="Enter Beneficiary ID..." />
+          <button class="btn btn-primary" id="beneficiary-search-btn" type="button"><i class="bi bi-search"></i> Verify Beneficiary</button>
+        </div>
+        <div id="beneficiary-search-result" class="verify-result"></div>
+      </div>
+
+      <!-- Recent Distribution Table -->
+      <div class="section-block">
+        <div class="section-block-head">
+          <div>
+            <h2>Today's Verified Grain Disbursements</h2>
+            <div class="sub">Cryptographically signed receipts logged onto Block #4281.</div>
+          </div>
+          <a href="distribution.html" class="panel-action">Open Distribution Stepper <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tx ID</th>
+                  <th>Beneficiary ID</th>
+                  <th>Citizen Name</th>
+                  <th>Commodity</th>
+                  <th>Quantity</th>
+                  <th>Block</th>
+                  <th>FBA Validators</th>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="mono font-bold">TXN-004281</span></td>
+                  <td><span class="mono">BEN-1024</span></td>
+                  <td><strong>Arun Kumar</strong></td>
+                  <td>Rice</td>
+                  <td><strong>5 KG</strong></td>
+                  <td><span class="mono">#4281</span></td>
+                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>Today 09:40 AM</td>
+                </tr>
+                <tr>
+                  <td><span class="mono font-bold">TXN-004280</span></td>
+                  <td><span class="mono">BEN-0887</span></td>
+                  <td><strong>Sunita Rani</strong></td>
+                  <td>Wheat</td>
+                  <td><strong>5 KG</strong></td>
+                  <td><span class="mono">#4280</span></td>
+                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>Today 09:05 AM</td>
+                </tr>
+                <tr>
+                  <td><span class="mono font-bold">TXN-004261</span></td>
+                  <td><span class="mono">BEN-1001</span></td>
+                  <td><strong>Ravi Kumar</strong></td>
+                  <td>Pulses</td>
+                  <td><strong>2 KG</strong></td>
+                  <td><span class="mono">#4276</span></td>
+                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>Yesterday</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/shop.js"></script>
+</body>
+</html>
+

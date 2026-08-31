@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Beneficiary Management — Admin — PDSChain</title>
+<meta name="description" content="Manage registered citizen beneficiaries, entitlement quotas, and ration card statuses on PDSChain." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/admin.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="admin.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="admin.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="beneficiaries.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-people-fill"></i><span>Beneficiaries</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Network</div>
+      <ul>
+        <li><a href="shops.html" class="sidebar-link"><i class="bi bi-shop"></i><span>Fair Price Shops</span></a></li>
+        <li><a href="warehouses.html" class="sidebar-link"><i class="bi bi-building"></i><span>Warehouses</span></a></li>
+        <li><a href="validators.html" class="sidebar-link"><i class="bi bi-hdd-network"></i><span>Validators</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger</div>
+      <ul>
+        <li><a href="transactions.html" class="sidebar-link"><i class="bi bi-arrow-left-right"></i><span>Transactions</span></a></li>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Insights</div>
+      <ul>
+        <li><a href="analytics.html" class="sidebar-link"><i class="bi bi-bar-chart-line"></i><span>Analytics</span></a></li>
+        <li><a href="reports.html" class="sidebar-link"><i class="bi bi-file-earmark-text"></i><span>Reports</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">FBA Network Healthy</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search beneficiaries..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">AD</span>
+            <span class="user-menu-text"><span class="name">Administrator</span><span class="role">Govt Authority</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Beneficiary Management</h1>
+          <p>Register, verify, search, and manage entitlement quotas for citizens.</p>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="openModal('modal-add-beneficiary')">
+          <i class="bi bi-person-plus-fill"></i> Add Beneficiary
+        </button>
+      </div>
+
+      <!-- Filter Toolbar -->
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="table-toolbar-left">
+            <div class="search-input-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" id="beneficiary-search" placeholder="Search by name or Beneficiary ID (e.g. BEN-1001)..." />
+            </div>
+
+            <select class="table-filter-select" id="beneficiary-region-filter">
+              <option value="">All Regions</option>
+              <option value="Chennai Central">Chennai Central</option>
+              <option value="Chennai North">Chennai North</option>
+              <option value="Chennai South">Chennai South</option>
+              <option value="Chennai West">Chennai West</option>
+              <option value="Chennai East">Chennai East</option>
+            </select>
+
+            <select class="table-filter-select" id="beneficiary-status-filter">
+              <option value="">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Suspended">Suspended</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Beneficiary ID</th>
+                <th>Name</th>
+                <th>Region</th>
+                <th>Household Size</th>
+                <th>Monthly Entitlement</th>
+                <th>Status</th>
+                <th>Last Distribution</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-beneficiaries-body"></tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <div>Showing <strong id="ben-count">8</strong> registered citizen records</div>
+          <div class="pagination">
+            <button class="page-btn is-active">1</button>
+            <button class="page-btn" disabled>2</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Add Beneficiary Modal -->
+<div class="modal-backdrop" id="modal-add-beneficiary" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="bi bi-person-plus-fill text-indigo"></i> Add New Beneficiary</h3>
+      <button class="modal-close" type="button" data-close-modal><i class="bi bi-x"></i></button>
+    </div>
+    <form id="form-add-beneficiary">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="add-ben-name">Full Name</label>
+          <input class="form-input" type="text" id="add-ben-name" placeholder="e.g. Ramesh Chandran" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="add-ben-region">Region</label>
+          <select class="form-select" id="add-ben-region">
+            <option value="Chennai Central">Chennai Central</option>
+            <option value="Chennai North">Chennai North</option>
+            <option value="Chennai South">Chennai South</option>
+            <option value="Chennai West">Chennai West</option>
+            <option value="Chennai East">Chennai East</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="add-ben-size">Household Member Count</label>
+          <input class="form-input" type="number" id="add-ben-size" min="1" max="12" value="4" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="submit">Create Beneficiary Record</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- View Beneficiary Modal -->
+<div class="modal-backdrop" id="modal-view-beneficiary" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="bi bi-person-vcard text-indigo"></i> Beneficiary Details</h3>
+      <button class="modal-close" type="button" data-close-modal><i class="bi bi-x"></i></button>
+    </div>
+    <div class="modal-body" id="view-beneficiary-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-close-modal>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Beneficiary Modal -->
+<div class="modal-backdrop" id="modal-edit-beneficiary" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="bi bi-pencil-square text-indigo"></i> Edit Beneficiary</h3>
+      <button class="modal-close" type="button" data-close-modal><i class="bi bi-x"></i></button>
+    </div>
+    <form id="form-edit-beneficiary">
+      <input type="hidden" id="edit-ben-id" />
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="edit-ben-name">Full Name</label>
+          <input class="form-input" type="text" id="edit-ben-name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-ben-region">Region</label>
+          <select class="form-select" id="edit-ben-region">
+            <option value="Chennai Central">Chennai Central</option>
+            <option value="Chennai North">Chennai North</option>
+            <option value="Chennai South">Chennai South</option>
+            <option value="Chennai West">Chennai West</option>
+            <option value="Chennai East">Chennai East</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-ben-size">Household Size</label>
+          <input class="form-input" type="number" id="edit-ben-size" min="1" max="12" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/admin.js"></script>
+</body>
+</html>
+

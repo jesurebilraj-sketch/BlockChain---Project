@@ -8,12 +8,14 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="../css/animations.css" />
+<link rel="stylesheet" href="../css/components.css" />
 <link rel="stylesheet" href="../css/auth.css" />
+<link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
 <a href="#login-main" class="skip-link">Skip to content</a>
@@ -39,20 +41,18 @@
         PDSChain
       </a>
       <h2 class="auth-brand-tagline">Building Trust Into Every Distribution.</h2>
-      <p class="auth-brand-desc">Secure access to a transparent, blockchain-powered Public Distribution infrastructure.</p>
+      <p class="auth-brand-desc">Secure role-based access to a transparent, permissioned blockchain Public Distribution infrastructure.</p>
     </div>
 
     <div class="auth-network">
       <div class="network-chain">
-        <div class="network-tier"><span class="tier-dot"></span> Government</div>
+        <div class="network-tier"><span class="tier-dot"></span> Administrator Node</div>
         <div class="network-connector"></div>
-        <div class="network-tier"><span class="tier-dot"></span> District</div>
+        <div class="network-tier"><span class="tier-dot"></span> Warehouse Silo WH-003</div>
         <div class="network-connector"></div>
-        <div class="network-tier"><span class="tier-dot"></span> Warehouse</div>
+        <div class="network-tier"><span class="tier-dot"></span> Fair Price Shop FPS-102</div>
         <div class="network-connector"></div>
-        <div class="network-tier"><span class="tier-dot"></span> Fair Price Shop</div>
-        <div class="network-connector"></div>
-        <div class="network-tier"><span class="tier-dot"></span> Beneficiary</div>
+        <div class="network-tier"><span class="tier-dot"></span> Citizen Beneficiary BEN-1024</div>
       </div>
 
       <div class="auth-blocks">
@@ -63,15 +63,16 @@
     </div>
 
     <div class="status-panel">
-      <div class="status-panel-title">Network Status</div>
+      <div class="status-panel-title">FBA Consensus Health</div>
       <div class="status-panel-row">
         <span class="status-live"><span class="dot"></span> Operational</span>
+        <span class="mono">12/12 Online</span>
       </div>
       <div class="status-panel-row">
-        <span>Validators</span><span>12 / 12</span>
+        <span>Consensus Latency</span><span>2.4s</span>
       </div>
       <div class="status-panel-row">
-        <span>Consensus</span><span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Healthy</span>
+        <span>Latest Block</span><span class="mono">#4281</span>
       </div>
     </div>
   </section>
@@ -80,30 +81,55 @@
   <section class="auth-form-panel">
     <div class="auth-form-wrap">
 
-      <div class="auth-form-header" data-reveal>
-        <span class="eyebrow">PDSChain Secure Access</span>
-        <h1>Welcome back.</h1>
-        <p>Sign in to access the PDS trust network.</p>
+      <div class="auth-form-header">
+        <span class="eyebrow">PDSChain Access Portal</span>
+        <h1>Sign In.</h1>
+        <p>Select your role or enter demo credentials below.</p>
       </div>
 
-      <div class="demo-note" data-reveal>
-        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
-        <span><strong>Demo login</strong> — for prototype testing only, not real security: <code>admin@pdschain.local</code> / <code>Admin@123</code></span>
+      <!-- Quick-fill demo credentials info card -->
+      <div class="demo-note" style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:6px; font-weight:700; color:var(--text-primary);">
+          <i class="bi bi-key-fill text-warning"></i> Demo Accounts (Username / Password):
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:12px;">
+          <div>&bull; <strong>admin</strong> / <code>admin123</code></div>
+          <div>&bull; <strong>shop</strong> / <code>shop123</code></div>
+          <div>&bull; <strong>warehouse</strong> / <code>warehouse123</code></div>
+          <div>&bull; <strong>citizen</strong> / <code>citizen123</code></div>
+          <div>&bull; <strong>validator</strong> / <code>validator123</code></div>
+        </div>
       </div>
 
       <div class="form-status" id="login-status" role="alert" hidden></div>
 
-      <form id="login-form" novalidate data-reveal>
+      <form id="login-form" novalidate>
         <div class="form-group">
-          <label class="form-label" for="login-id">Email / User ID</label>
-          <input class="form-input" type="text" id="login-id" name="loginId" placeholder="Enter your email or user ID" autocomplete="username" />
+          <label class="form-label" for="login-role">Select Role (Quick Fill)</label>
+          <div class="role-select-wrap">
+            <i class="bi bi-person-badge" aria-hidden="true"></i>
+            <select class="form-select" id="login-role" name="loginRole">
+              <option value="" disabled selected>Choose a role...</option>
+              <option value="admin">Administrator (Admin Dashboard)</option>
+              <option value="warehouse">Warehouse Officer (WH-003)</option>
+              <option value="shop">Fair Price Shop Officer (FPS-102)</option>
+              <option value="citizen">Citizen / Beneficiary (BEN-1024)</option>
+              <option value="validator">Validator Node (NODE-07)</option>
+            </select>
+          </div>
+          <div class="form-hint" aria-live="polite"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-id">Username / User ID</label>
+          <input class="form-input" type="text" id="login-id" name="loginId" placeholder="e.g. admin, shop, warehouse, citizen, validator" autocomplete="username" />
           <div class="form-hint" aria-live="polite"></div>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="login-password">Password</label>
           <div class="input-wrap">
-            <input class="form-input has-icon" type="password" id="login-password" name="loginPassword" placeholder="Enter your password" autocomplete="current-password" />
+            <input class="form-input has-icon" type="password" id="login-password" name="loginPassword" placeholder="Enter password" autocomplete="current-password" />
             <button class="input-icon-btn" type="button" data-toggle-password="login-password" aria-label="Show password">
               <i class="bi bi-eye" aria-hidden="true"></i>
             </button>
@@ -111,47 +137,31 @@
           <div class="form-hint" aria-live="polite"></div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="login-role">Access as</label>
-          <div class="role-select-wrap">
-            <i class="bi bi-person-badge" aria-hidden="true"></i>
-            <select class="form-select" id="login-role" name="loginRole">
-              <option value="" disabled selected>Select your role</option>
-              <option value="admin">Administrator</option>
-              <option value="warehouse">Warehouse Officer</option>
-              <option value="shop">Fair Price Shop Officer</option>
-              <option value="citizen">Citizen / Beneficiary</option>
-              <option value="validator">Validator</option>
-              <option value="auditor">Auditor</option>
-            </select>
-          </div>
-          <div class="form-hint" aria-live="polite"></div>
-        </div>
-
         <div class="checkbox-row">
           <label class="checkbox-field">
-            <input type="checkbox" id="remember-me" name="rememberMe" />
+            <input type="checkbox" id="remember-me" name="rememberMe" checked />
             Remember me
           </label>
           <a href="#" class="link-muted">Forgot password?</a>
         </div>
 
         <button type="submit" class="btn btn-primary btn-block" id="login-submit">
-          Sign In <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          Sign In to Dashboard <i class="bi bi-arrow-right" aria-hidden="true"></i>
         </button>
       </form>
 
-      <p class="auth-switch" data-reveal>Don't have an account? <a href="register.html">Create an account</a></p>
+      <p class="auth-switch">Don't have an account? <a href="register.html">Register here</a></p>
 
-      <div class="security-note" data-reveal>
+      <div class="security-note">
         <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
-        Protected by permissioned blockchain infrastructure.
+        Protected by Federated Byzantine Agreement blockchain simulation.
       </div>
-      <p class="backend-note">Authentication and authorization are enforced by the backend in the production architecture. This screen is a frontend prototype only.</p>
     </div>
   </section>
 
 </main>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
 <footer class="auth-footer">
   <div class="container">
@@ -159,7 +169,7 @@
   </div>
 </footer>
 
-<script src="../js/main.js" defer></script>
-<script src="../js/auth.js" defer></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
 </body>
 </html>

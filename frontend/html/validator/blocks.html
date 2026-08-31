@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mined &amp; Validated Blocks — Validator — PDSChain</title>
+<meta name="description" content="View verified block registry and validator consensus seals on PDSChain." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/validator.css" />
+<link rel="stylesheet" href="../../css/blockchain.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="validator.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="validator.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="consensus.html" class="sidebar-link"><i class="bi bi-broadcast"></i><span>Consensus Rounds</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">FBA Network</div>
+      <ul>
+        <li><a href="quorum.html" class="sidebar-link"><i class="bi bi-diagram-2-fill"></i><span>Quorum Slices</span></a></li>
+        <li><a href="blocks.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-diagram-3-fill"></i><span>Mined Blocks</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-search"></i><span>Explorer</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Txn</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">NODE-07 Online</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search blocks..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">VN</span>
+            <span class="user-menu-text"><span class="name">Validator 07</span><span class="role">NODE-07</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> Node Info</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Mined &amp; Validated Blocks Registry</h1>
+          <p>Chronological chain of verified blocks sealed by the 12 FBA nodes.</p>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Block Height</th>
+                <th>Block Hash</th>
+                <th>Previous Hash</th>
+                <th>Transactions</th>
+                <th>Validator Quorum</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+                <th>Inspect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="mono font-bold">#4281</span></td>
+                <td><span class="hash-badge">0x8a7f...92bd</span></td>
+                <td><span class="mono muted">0x73ab...ef21</span></td>
+                <td><strong>42 txns</strong></td>
+                <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                <td>Today 09:42 AM</td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td><button class="btn-action-sm" onclick="inspectBlock(4281)"><i class="bi bi-eye"></i> Details</button></td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">#4280</span></td>
+                <td><span class="hash-badge">0x73ab...ef21</span></td>
+                <td><span class="mono muted">0xc30e...1042</span></td>
+                <td><strong>38 txns</strong></td>
+                <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                <td>Today 09:10 AM</td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td><button class="btn-action-sm" onclick="inspectBlock(4280)"><i class="bi bi-eye"></i> Details</button></td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">#4279</span></td>
+                <td><span class="hash-badge">0xc30e...1042</span></td>
+                <td><span class="mono muted">0xa04b...cd95</span></td>
+                <td><strong>51 txns</strong></td>
+                <td><span class="badge badge-info">11 / 12 Nodes</span></td>
+                <td>Today 08:35 AM</td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td><button class="btn-action-sm" onclick="inspectBlock(4279)"><i class="bi bi-eye"></i> Details</button></td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">#4278</span></td>
+                <td><span class="hash-badge">0xa04b...cd95</span></td>
+                <td><span class="mono muted">0x54ec...bb31</span></td>
+                <td><strong>29 txns</strong></td>
+                <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                <td>Today 08:08 AM</td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td><button class="btn-action-sm" onclick="inspectBlock(4278)"><i class="bi bi-eye"></i> Details</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Block Inspector Modal -->
+<div class="modal-backdrop" id="modal-inspect-block" role="dialog" aria-modal="true">
+  <div class="modal-dialog is-wide">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="bi bi-diagram-3 text-indigo"></i> <span id="inspect-block-num">Block Details</span></h3>
+      <button class="modal-close" type="button" data-close-modal><i class="bi bi-x"></i></button>
+    </div>
+    <div class="modal-body" id="inspect-block-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-close-modal>Close Inspector</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/blockchain.js"></script>
+</body>
+</html>
+

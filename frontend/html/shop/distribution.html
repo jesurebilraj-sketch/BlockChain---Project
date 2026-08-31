@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ration Distribution Stepper — Fair Price Shop — PDSChain</title>
+<meta name="description" content="6-step blockchain-verified ration distribution workflow with real-time FBA consensus simulation." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/shop.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="shop.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="shop.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="distribution.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-cart-check-fill"></i><span>Distribute Rations</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Citizens &amp; Stock</div>
+      <ul>
+        <li><a href="beneficiaries.html" class="sidebar-link"><i class="bi bi-person-check-fill"></i><span>Verify Citizen</span></a></li>
+        <li><a href="inventory.html" class="sidebar-link"><i class="bi bi-boxes"></i><span>Shop Inventory</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Txn</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">FPS-102 Online</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search beneficiaries..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">FS</span>
+            <span class="user-menu-text"><span class="name">FPS Officer</span><span class="role">FPS-102 Central Bazaar</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>6-Step Grain Distribution Pipeline</h1>
+          <p>Complete end-to-end disbursement with cryptographic validation and live block anchoring.</p>
+        </div>
+      </div>
+
+      <!-- Stepper Progress Header -->
+      <div class="stepper-wrap">
+        <div class="stepper-step is-active" data-step="1">
+          <div class="step-num">1</div>
+          <div class="step-label">Verify Citizen</div>
+        </div>
+        <div class="stepper-step" data-step="2">
+          <div class="step-num">2</div>
+          <div class="step-label">Entitlement</div>
+        </div>
+        <div class="stepper-step" data-step="3">
+          <div class="step-num">3</div>
+          <div class="step-label">Select Commodity</div>
+        </div>
+        <div class="stepper-step" data-step="4">
+          <div class="step-num">4</div>
+          <div class="step-label">Confirm</div>
+        </div>
+        <div class="stepper-step" data-step="5">
+          <div class="step-num">5</div>
+          <div class="step-label">Consensus</div>
+        </div>
+        <div class="stepper-step" data-step="6">
+          <div class="step-num">6</div>
+          <div class="step-label">Receipt</div>
+        </div>
+      </div>
+
+      <div class="stepper-container">
+
+        <!-- STEP 1: Verify Beneficiary -->
+        <div class="step-card is-active" id="step-card-1">
+          <div class="step-card-header">
+            <h2>Step 1: Authenticate Citizen Beneficiary</h2>
+            <p>Enter the citizen's Beneficiary Ration Card ID to verify identity and active status.</p>
+          </div>
+
+          <div class="form-group" style="max-width:480px;">
+            <label class="form-label" for="step1-ben-id">Beneficiary ID</label>
+            <div class="verify-search-row">
+              <input type="text" class="form-input" id="step1-ben-id" value="BEN-1024" placeholder="e.g. BEN-1024, BEN-1001, BEN-1002" />
+              <button type="button" class="btn btn-primary" id="step1-verify-btn"><i class="bi bi-person-check-fill"></i> Verify &amp; Proceed</button>
+            </div>
+            <div class="form-hint">Try demo beneficiary ID <strong>BEN-1024</strong> (Arun Kumar) or <strong>BEN-1001</strong> (Ravi Kumar)</div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Entitlement & Commodity Check -->
+        <div class="step-card" id="step-card-2">
+          <div class="step-card-header">
+            <h2>Step 2: Check Monthly Entitlement &amp; Select Commodity</h2>
+            <p>Beneficiary verified successfully. Choose which commodity is being issued today.</p>
+          </div>
+
+          <div class="alert-card is-success" id="step2-ben-info" style="margin-bottom:24px;"></div>
+
+          <label class="form-label">Select Commodity to Issue:</label>
+          <div class="commodity-selector">
+            <label class="commodity-option is-selected">
+              <input type="radio" name="dist_commodity" value="Rice" checked />
+              <div class="commodity-option-name"><i class="bi bi-basket text-indigo"></i> Rice</div>
+              <div class="commodity-option-quota">Entitled: 40 KG | Rem: 40 KG</div>
+            </label>
+            <label class="commodity-option">
+              <input type="radio" name="dist_commodity" value="Wheat" />
+              <div class="commodity-option-name"><i class="bi bi-basket text-teal"></i> Wheat</div>
+              <div class="commodity-option-quota">Entitled: 15 KG | Rem: 15 KG</div>
+            </label>
+            <label class="commodity-option">
+              <input type="radio" name="dist_commodity" value="Sugar" />
+              <div class="commodity-option-name"><i class="bi bi-basket text-warning"></i> Sugar</div>
+              <div class="commodity-option-quota">Entitled: 3 KG | Rem: 3 KG</div>
+            </label>
+            <label class="commodity-option">
+              <input type="radio" name="dist_commodity" value="Pulses" />
+              <div class="commodity-option-name"><i class="bi bi-basket text-danger"></i> Pulses</div>
+              <div class="commodity-option-quota">Entitled: 2 KG | Rem: 2 KG</div>
+            </label>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:20px;">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(1)"><i class="bi bi-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-primary" id="step2-next-btn">Continue to Quantity <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Enter Quantity -->
+        <div class="step-card" id="step-card-3">
+          <div class="step-card-header">
+            <h2>Step 3: Enter Dispensed Weight / Quantity</h2>
+            <p>Specify the exact measured quantity in Kilograms (KG).</p>
+          </div>
+
+          <div class="form-group" style="max-width:360px;">
+            <label class="form-label" for="dist-qty-input">Quantity (KG)</label>
+            <input type="number" class="form-input" id="dist-qty-input" value="5" min="1" max="50" step="0.5" />
+            <div class="form-hint">Physical weight scale reading from digital POS.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:20px;">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(2)"><i class="bi bi-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-primary" id="step3-next-btn">Review Summary <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Confirm Distribution -->
+        <div class="step-card" id="step-card-4">
+          <div class="step-card-header">
+            <h2>Step 4: Confirm &amp; Sign Distribution Transaction</h2>
+            <p>Review the transaction details before broadcasting to the FBA validator network.</p>
+          </div>
+
+          <div class="receipt-details" id="step4-confirm-details" style="max-width:560px; margin-bottom:24px;"></div>
+
+          <div style="display:flex; gap:12px; margin-top:20px;">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(3)"><i class="bi bi-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-primary" id="step4-submit-btn">
+              <i class="bi bi-broadcast"></i> Broadcast to Blockchain &amp; Run Consensus
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5: Live Blockchain & FBA Consensus Simulation -->
+        <div class="step-card" id="step-card-5">
+          <div class="step-card-header">
+            <h2>Step 5: Live Blockchain Consensus in Progress</h2>
+            <p>Federated Byzantine Agreement (FBA) nodes are verifying transaction <span class="mono font-bold" id="sim-txn-id">TXN-...</span></p>
+          </div>
+
+          <div class="consensus-simulation-box">
+            <div class="sim-stage is-active" id="stage-create">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 1: Cryptographic transaction payload constructed &amp; signed</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-validate">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 2: Citizen quota and shop stock verified locally</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-votes">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 3: Broadcasting to 12 authorized validator nodes</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-quorum">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 4: Intersecting quorum slices evaluating votes</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-consensus">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 5: 12 / 12 Validator agreement reached (100% Consensus)</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-block">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 6: Merkle root computed and sealed onto Block #4281</span>
+            </div>
+            <div class="sim-stage is-active" id="stage-verified">
+              <span class="sim-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <span>Stage 7: Transaction finalized with instant block confirmation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 6: Verified Receipt -->
+        <div class="step-card" id="step-card-6">
+          <div class="step-card-header text-center">
+            <h2 class="text-success"><i class="bi bi-check-circle-fill"></i> Distribution Successfully Verified On-Chain!</h2>
+            <p>The transaction has been cryptographically recorded on the PDSChain ledger.</p>
+          </div>
+
+          <div class="receipt-card" id="step6-receipt-card" style="margin:20px auto;"></div>
+
+          <div style="display:flex; justify-content:center; gap:14px; margin-top:28px;">
+            <button type="button" class="btn btn-secondary" id="receipt-print-btn"><i class="bi bi-printer-fill"></i> Print Official Receipt</button>
+            <button type="button" class="btn btn-primary" id="dist-reset-btn"><i class="bi bi-plus-circle"></i> Distribute to Next Citizen</button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/shop.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Warehouse Dashboard — PDSChain</title>
+<meta name="description" content="PDSChain warehouse officer dashboard: inventory levels, transfers and blockchain-verified stock movement." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/warehouse.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="warehouse.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="warehouse.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="inventory.html" class="sidebar-link"><i class="bi bi-boxes"></i><span>Inventory</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Stock Movement</div>
+      <ul>
+        <li><a href="transfers.html" class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i><span>Transfers</span></a></li>
+        <li><a href="transactions.html" class="sidebar-link"><i class="bi bi-arrow-left-right"></i><span>Transactions</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Hash</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">WH-003 Operational</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search transfers, commodities..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="icon-btn" type="button" data-dropdown="notif-panel" aria-label="Notifications">
+            <i class="bi bi-bell"></i><span class="dot-badge"></span>
+          </button>
+          <div class="dropdown-panel is-wide" id="notif-panel">
+            <div class="dropdown-head">Warehouse Alerts <span class="count">2 new</span></div>
+            <div class="dropdown-list">
+              <div class="dropdown-item"><i class="bi bi-check-circle-fill text-success"></i><div><strong style="display:block;font-size:13px;">Transfer TRF-1028 verified</strong><span style="font-size:12px;color:var(--text-muted);">500 KG Rice delivered to FPS-102 · 10 min ago</span></div></div>
+              <div class="dropdown-item"><i class="bi bi-exclamation-triangle-fill text-warning"></i><div><strong style="display:block;font-size:13px;">Wheat safety threshold reached</strong><span style="font-size:12px;color:var(--text-muted);">Stock at 64% capacity · 45 min ago</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">WO</span>
+            <span class="user-menu-text"><span class="name">Warehouse Officer</span><span class="role">WH-003 Depot</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Regional Grain Warehouse Dashboard</h1>
+          <p>Supervise grain stock levels, incoming procurement, and dispatched fair price allocations.</p>
+        </div>
+        <div class="page-header-meta">
+          <span class="meta-chip"><i class="bi bi-building"></i> WH-003 Main Depot</span>
+          <span class="badge badge-success"><i class="bi bi-check-circle-fill"></i> Operational</span>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid cols-5">
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Total Inventory</span><span class="icon-tile"><i class="bi bi-boxes"></i></span></div>
+          <div class="stat-card-value">9,820 MT</div>
+          <div class="stat-card-foot"><span class="caption">81.8% of capacity</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Received Today</span><span class="icon-tile is-teal"><i class="bi bi-box-arrow-in-down"></i></span></div>
+          <div class="stat-card-value">820 MT</div>
+          <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short"></i> Inbound</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Dispatched Today</span><span class="icon-tile"><i class="bi bi-box-arrow-up-right"></i></span></div>
+          <div class="stat-card-value">540 MT</div>
+          <div class="stat-card-foot"><span class="caption">To 14 Fair Price Shops</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Pending Transfers</span><span class="icon-tile is-warning"><i class="bi bi-hourglass-split"></i></span></div>
+          <div class="stat-card-value">2</div>
+          <div class="stat-card-foot"><span class="trend is-down">Awaiting Quorum</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><span class="stat-card-label">Low Stock Items</span><span class="icon-tile"><i class="bi bi-exclamation-circle"></i></span></div>
+          <div class="stat-card-value">0</div>
+          <div class="stat-card-foot"><span class="trend is-flat"><i class="bi bi-check"></i> Normal Levels</span></div>
+        </div>
+      </div>
+
+      <!-- Inventory Visual Cards -->
+      <div class="section-block">
+        <div class="section-block-head">
+          <div>
+            <h2>Current Commodity Stock Levels</h2>
+            <div class="sub">Live reserve capacity across five essential public distribution commodities.</div>
+          </div>
+          <a href="inventory.html" class="panel-action">Manage inventory <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="inventory-grid">
+          <div class="inventory-card">
+            <div class="inventory-card-head"><h4>Rice</h4><span class="badge badge-success">82% Full</span></div>
+            <div class="inventory-card-value">4,900 MT</div>
+            <div class="progress-track"><div class="progress-fill" style="width:82%;"></div></div>
+            <div class="cap-label">Available: 4,400 MT | Reserved: 500 MT</div>
+          </div>
+          <div class="inventory-card">
+            <div class="inventory-card-head"><h4>Wheat</h4><span class="badge badge-success">64% Full</span></div>
+            <div class="inventory-card-value">2,850 MT</div>
+            <div class="progress-track"><div class="progress-fill" style="width:64%;"></div></div>
+            <div class="cap-label">Available: 2,550 MT | Reserved: 300 MT</div>
+          </div>
+          <div class="inventory-card">
+            <div class="inventory-card-head"><h4>Sugar</h4><span class="badge badge-success">75% Full</span></div>
+            <div class="inventory-card-value">980 MT</div>
+            <div class="progress-track"><div class="progress-fill" style="width:75%;"></div></div>
+            <div class="cap-label">Available: 800 MT | Reserved: 180 MT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart & Recent Transfers Row -->
+      <div class="content-grid">
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <div>
+              <h3>Stock Throughput &amp; Inbound/Outbound Ratio</h3>
+              <p>Reconciliation of grain receipts vs dispatch orders.</p>
+            </div>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="inventory-chart"></canvas>
+          </div>
+          <div class="chart-legend-inline">
+            <span><span class="dot" style="background:#17d8ac;"></span>Received (MT)</span>
+            <span><span class="dot" style="background:#4f6bff;"></span>Transferred (MT)</span>
+            <span><span class="dot" style="background:#93a5ff;"></span>Remaining Balance</span>
+          </div>
+        </div>
+
+        <!-- Quick Transfer Dispatch Card -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-title">Dispatch Stock Transfer</span>
+              <div class="panel-desc">Issue blockchain-sealed grain transfers to Fair Price Shops</div>
+            </div>
+          </div>
+          <p class="muted" style="font-size:13px;margin-bottom:16px;">Create a new transfer request verified by FBA validator consensus and recorded on-chain.</p>
+          <button class="btn btn-primary btn-block" onclick="openModal('modal-create-transfer')">
+            <i class="bi bi-box-arrow-up-right"></i> Create Transfer Request
+          </button>
+          <a href="transfers.html" class="btn btn-secondary btn-block" style="margin-top:10px;">
+            <i class="bi bi-list-check"></i> View All Transfers
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Transfers Table -->
+      <div class="section-block">
+        <div class="section-block-head">
+          <div>
+            <h2>Recent Stock Movement Logs</h2>
+            <div class="sub">Latest inbound procurement batches and outbound shop dispatches.</div>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Transfer ID</th>
+                  <th>Type</th>
+                  <th>Source</th>
+                  <th>Destination</th>
+                  <th>Commodity</th>
+                  <th>Quantity</th>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="warehouse-transfer-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Create Transfer Modal -->
+<div class="modal-backdrop" id="modal-create-transfer" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="bi bi-box-arrow-up-right text-indigo"></i> Create Stock Transfer</h3>
+      <button class="modal-close" type="button" data-close-modal><i class="bi bi-x"></i></button>
+    </div>
+    <form id="form-create-transfer">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="trf-destination">Destination Fair Price Shop</label>
+          <select class="form-select" id="trf-destination" required>
+            <option value="FPS-101 (North Sector)">FPS-101 (North Sector FPS)</option>
+            <option value="FPS-102 (Central Bazaar)" selected>FPS-102 (Central Bazaar FPS)</option>
+            <option value="FPS-103 (East Coast)">FPS-103 (East Coast FPS)</option>
+            <option value="FPS-104 (West Gate)">FPS-104 (West Gate FPS)</option>
+            <option value="FPS-118 (South Sector)">FPS-118 (South Sector FPS)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="trf-commodity">Commodity</label>
+          <select class="form-select" id="trf-commodity" required>
+            <option value="Rice" selected>Rice</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Sugar">Sugar</option>
+            <option value="Pulses">Pulses</option>
+            <option value="Kerosene">Kerosene</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="trf-quantity">Quantity (in KG)</label>
+          <input class="form-input" type="number" id="trf-quantity" placeholder="e.g. 500" min="10" max="5000" value="500" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="trf-remarks">Batch Remarks / Driver ID</label>
+          <input class="form-input" type="text" id="trf-remarks" placeholder="e.g. Batch #TN-2026-088, Lorry #TN-09-AB-1234" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" type="submit">Submit On-Chain Transfer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/charts.js"></script>
+<script src="../../js/warehouse.js"></script>
+</body>
+</html>
+

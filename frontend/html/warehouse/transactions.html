@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Warehouse Transactions — PDSChain</title>
+<meta name="description" content="View on-chain verified grain transactions originating from WH-003." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/warehouse.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="warehouse.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="warehouse.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="inventory.html" class="sidebar-link"><i class="bi bi-boxes"></i><span>Inventory</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Stock Movement</div>
+      <ul>
+        <li><a href="transfers.html" class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i><span>Transfers</span></a></li>
+        <li><a href="transactions.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-arrow-left-right"></i><span>Transactions</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Hash</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">WH-003 Operational</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search transactions..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">WO</span>
+            <span class="user-menu-text"><span class="name">Warehouse Officer</span><span class="role">WH-003 Depot</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Warehouse Stock Transactions</h1>
+          <p>Cryptographic receipts of bulk grain disbursements sealed onto the blockchain.</p>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tx ID</th>
+                <th>Destination</th>
+                <th>Commodity</th>
+                <th>Quantity</th>
+                <th>Block Height</th>
+                <th>Validator Quorum</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="mono font-bold">TXN-004281</span></td>
+                <td>FPS-102 Central Bazaar</td>
+                <td>Rice</td>
+                <td><strong>500 KG</strong></td>
+                <td><span class="mono">#4281</span></td>
+                <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td>2026-08-30 09:40 AM</td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">TXN-004280</span></td>
+                <td>FPS-118 South Sector</td>
+                <td>Wheat</td>
+                <td><strong>300 KG</strong></td>
+                <td><span class="mono">#4280</span></td>
+                <td><span class="badge badge-success">12 / 12 Nodes</span></td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td>2026-08-30 09:05 AM</td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">TXN-004279</span></td>
+                <td>FPS-101 North Sector</td>
+                <td>Sugar</td>
+                <td><strong>180 KG</strong></td>
+                <td><span class="mono">#4279</span></td>
+                <td><span class="badge badge-info">11 / 12 Nodes</span></td>
+                <td><span class="badge badge-success">Verified</span></td>
+                <td>2026-08-30 08:32 AM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+</body>
+</html>
+

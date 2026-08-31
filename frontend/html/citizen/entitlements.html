@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Monthly Quota &amp; Entitlements — Citizen — PDSChain</title>
+<meta name="description" content="View monthly grain allocations, collected ratios, and remaining quotas for BEN-1024." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/citizen.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="citizen.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="citizen.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="entitlements.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-basket-fill"></i><span>Entitlements</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">History &amp; Proof</div>
+      <ul>
+        <li><a href="history.html" class="sidebar-link"><i class="bi bi-clock-history"></i><span>History</span></a></li>
+        <li><a href="verify.html" class="sidebar-link"><i class="bi bi-patch-check-fill"></i><span>Verify Receipt</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Account</div>
+      <ul>
+        <li><a href="profile.html" class="sidebar-link"><i class="bi bi-person-vcard-fill"></i><span>Ration Card</span></a></li>
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="sidebar-status"><span class="dot"></span><span class="label">Citizen Verified</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search entitlements..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">AK</span>
+            <span class="user-menu-text"><span class="name">Arun Kumar</span><span class="role">BEN-1024</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="profile.html"><i class="bi bi-person-vcard"></i> My Ration Card</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Monthly Entitlement Quota</h1>
+          <p>Household allocation for August 2026 at FPS-102 Central Bazaar.</p>
+        </div>
+      </div>
+
+      <div class="content-grid even">
+        <!-- Rice Card -->
+        <div class="quota-card">
+          <div class="quota-top">
+            <div class="quota-title"><i class="bi bi-basket text-indigo"></i> Rice (Grade A)</div>
+            <div class="quota-nums">Remaining: <strong>35 KG</strong> / 40 KG</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:87.5%;"></div></div>
+          <div class="meta" style="font-size:12.5px; margin-top:8px; color:var(--text-muted);">
+            Collected: 5 KG on 30 Aug 2026 (Tx: TXN-004281)
+          </div>
+        </div>
+
+        <!-- Wheat Card -->
+        <div class="quota-card">
+          <div class="quota-top">
+            <div class="quota-title"><i class="bi bi-basket text-teal"></i> Wheat</div>
+            <div class="quota-nums">Remaining: <strong>15 KG</strong> / 15 KG</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
+          <div class="meta" style="font-size:12.5px; margin-top:8px; color:var(--text-muted);">
+            Collected: 0 KG (100% available for pickup)
+          </div>
+        </div>
+
+        <!-- Sugar Card -->
+        <div class="quota-card">
+          <div class="quota-top">
+            <div class="quota-title"><i class="bi bi-basket text-warning"></i> Refined Sugar</div>
+            <div class="quota-nums">Remaining: <strong>3 KG</strong> / 3 KG</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
+          <div class="meta" style="font-size:12.5px; margin-top:8px; color:var(--text-muted);">
+            Collected: 0 KG (100% available for pickup)
+          </div>
+        </div>
+
+        <!-- Pulses Card -->
+        <div class="quota-card">
+          <div class="quota-top">
+            <div class="quota-title"><i class="bi bi-basket text-danger"></i> Toor Dal (Pulses)</div>
+            <div class="quota-nums">Remaining: <strong>2 KG</strong> / 2 KG</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
+          <div class="meta" style="font-size:12.5px; margin-top:8px; color:var(--text-muted);">
+            Collected: 0 KG (100% available for pickup)
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/citizen.js"></script>
+</body>
+</html>
+

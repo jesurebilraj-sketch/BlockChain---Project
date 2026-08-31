@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PDSChain — Building Trust Into Every Distribution</title>
+<title>PDSChain — Blockchain-Based Public Distribution System</title>
 <meta name="description" content="PDSChain is a blockchain-powered Public Distribution System infrastructure delivering transparent, traceable and verifiable distribution records." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <link rel="stylesheet" href="../css/style.css" />
 <link rel="stylesheet" href="../css/animations.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -20,7 +22,7 @@
 <!-- ============== NAVBAR ============== -->
 <header class="navbar" id="navbar">
   <div class="container">
-    <a href="#top" class="brand">
+    <a href="index.html" class="brand">
       <span class="brand-mark"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
       PDSChain
     </a>
@@ -28,9 +30,10 @@
     <nav class="nav-links" aria-label="Primary">
       <a href="#platform">Platform</a>
       <a href="#how-it-works">How It Works</a>
-      <a href="#blockchain">Blockchain</a>
-      <a href="#transparency">Transparency</a>
-      <a href="#about">About</a>
+      <a href="#workflow">Process</a>
+      <a href="blockchain.html">Blockchain Explorer</a>
+      <a href="#fba">Consensus</a>
+      <a href="transaction.html">Verify Txn</a>
     </nav>
 
     <div class="nav-actions">
@@ -38,8 +41,8 @@
         <i class="bi bi-moon-stars icon-moon" aria-hidden="true"></i>
         <i class="bi bi-sun icon-sun" aria-hidden="true"></i>
       </button>
-      <a href="#blockchain" class="btn btn-secondary btn-sm">View Blockchain</a>
-      <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
+      <a href="blockchain.html" class="btn btn-secondary btn-sm"><i class="bi bi-diagram-3"></i> Explorer</a>
+      <a href="login.html" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
         <span></span><span></span><span></span>
       </button>
@@ -50,12 +53,13 @@
 <div class="mobile-drawer" id="mobile-drawer">
   <a href="#platform">Platform</a>
   <a href="#how-it-works">How It Works</a>
-  <a href="#blockchain">Blockchain</a>
-  <a href="#transparency">Transparency</a>
-  <a href="#about">About</a>
-  <div class="nav-actions">
-    <a href="#blockchain" class="btn btn-secondary">View Blockchain</a>
-    <a href="login.html" class="btn btn-primary">Sign In</a>
+  <a href="#workflow">Process</a>
+  <a href="blockchain.html">Blockchain Explorer</a>
+  <a href="#fba">Consensus</a>
+  <a href="transaction.html">Verify Transaction</a>
+  <div class="nav-actions" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+    <a href="blockchain.html" class="btn btn-secondary">Explore Blockchain</a>
+    <a href="login.html" class="btn btn-primary">Sign In to Dashboard</a>
   </div>
 </div>
 
@@ -66,16 +70,16 @@
   <div class="container">
     <div class="hero-copy">
       <span class="eyebrow">Next-Generation Public Distribution Infrastructure</span>
-      <h1 class="hero-title">Building <span class="text-highlight">Trust</span><br>Into Every Distribution.</h1>
-      <p class="hero-sub">A blockchain-powered Public Distribution System designed to make every transaction transparent, traceable and verifiable.</p>
+      <h1 class="hero-title">Building <span class="text-highlight">Trust &amp; Transparency</span><br>Into Every Grain Distribution.</h1>
+      <p class="hero-sub">PDSChain is a permissioned blockchain platform engineered for the Public Distribution System, eliminating diversion, empowering citizens, and enforcing real-time verifiable audits.</p>
       <div class="hero-actions">
-        <a href="#platform" class="btn btn-primary">Explore Platform <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
-        <a href="#blockchain" class="btn btn-secondary">View Blockchain</a>
+        <a href="login.html" class="btn btn-primary"><i class="bi bi-speedometer2"></i> Enter Portal</a>
+        <a href="blockchain.html" class="btn btn-secondary"><i class="bi bi-diagram-3"></i> Live Blockchain Explorer</a>
       </div>
       <ul class="hero-checks">
-        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Tamper-resistant records</li>
-        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Transparent distribution</li>
-        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Federated consensus</li>
+        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Cryptographically sealed ledgers</li>
+        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Zero-leakage grain tracking</li>
+        <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Federated Byzantine Agreement</li>
       </ul>
     </div>
 
@@ -104,12 +108,12 @@
 
       <div class="block-card">
         <div class="block-card-head">
-          <span class="block-badge"><i class="bi bi-shield-check" aria-hidden="true"></i> Consensus Achieved</span>
+          <span class="block-badge"><i class="bi bi-shield-check" aria-hidden="true"></i> FBA Consensus</span>
         </div>
         <div class="block-title">BLOCK #004281</div>
-        <div class="block-row"><span>Validators</span><span>12 / 12</span></div>
-        <div class="block-row"><span>Transactions</span><span>1,284</span></div>
-        <div class="block-row"><span class="mono">Hash</span><span class="mono">91f2...aa91</span></div>
+        <div class="block-row"><span>Validators</span><span>12 / 12 Nodes</span></div>
+        <div class="block-row"><span>Transactions</span><span>1,284 Verified</span></div>
+        <div class="block-row"><span class="mono">Hash</span><span class="mono">0x8a7f...92bd</span></div>
       </div>
     </div>
   </div>
@@ -118,26 +122,26 @@
 <!-- ============== TRUST METRICS ============== -->
 <section class="metrics" id="platform">
   <div class="container">
-    <div class="metrics-head" data-reveal>
-      <span class="eyebrow">Network Overview</span>
-      <h2 class="section-heading" style="margin-top:10px;">One Network. Complete Traceability.</h2>
+    <div class="metrics-head">
+      <span class="eyebrow">Network Status Overview</span>
+      <h2 class="section-heading" style="margin-top:10px;">One Unified Network. Complete Traceability.</h2>
     </div>
-    <div class="metrics-grid" data-reveal-group>
-      <div class="metric-cell" data-reveal style="--i:0">
+    <div class="metrics-grid">
+      <div class="metric-cell">
         <div class="metric-value" data-counter="12">0</div>
-        <div class="metric-label">Active Validators</div>
+        <div class="metric-label">Active Validator Nodes</div>
       </div>
-      <div class="metric-cell" data-reveal style="--i:1">
+      <div class="metric-cell">
         <div class="metric-value" data-counter="4281">0</div>
         <div class="metric-label">Blocks Verified</div>
       </div>
-      <div class="metric-cell" data-reveal style="--i:2">
-        <div class="metric-value" data-counter="1284">0</div>
-        <div class="metric-label">Transactions</div>
+      <div class="metric-cell">
+        <div class="metric-value" data-counter="342891">0</div>
+        <div class="metric-label">Beneficiaries Protected</div>
       </div>
-      <div class="metric-cell" data-reveal style="--i:3">
+      <div class="metric-cell">
         <div class="metric-value" data-counter="99.9" data-decimals="1" data-suffix="%">0</div>
-        <div class="metric-label">Network Integrity</div>
+        <div class="metric-label">Consensus Integrity</div>
       </div>
     </div>
   </div>
@@ -146,30 +150,30 @@
 <!-- ============== PROBLEM SECTION ============== -->
 <section class="section">
   <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">The Challenge</span>
-      <h2 class="section-heading">Traditional PDS Needs a New Layer of Trust.</h2>
+    <div class="section-head">
+      <span class="eyebrow">Why Blockchain for PDS?</span>
+      <h2 class="section-heading">Overcoming Challenges in Traditional Distribution.</h2>
     </div>
     <div class="card-grid">
-      <div class="info-card" data-reveal style="--i:0">
+      <div class="info-card">
         <span class="icon-tile"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
-        <h3>Manual Records</h3>
-        <p>Fragmented records make verification difficult.</p>
+        <h3>Paper &amp; Siloed Logs</h3>
+        <p>Paper registers and fragmented central databases cause reconciliation bottlenecks and human errors.</p>
       </div>
-      <div class="info-card" data-reveal style="--i:1">
+      <div class="info-card">
         <span class="icon-tile"><i class="bi bi-eye-slash" aria-hidden="true"></i></span>
-        <h3>Limited Visibility</h3>
-        <p>Stakeholders cannot easily trace the journey of supplies.</p>
+        <h3>Grain Diversion &amp; Leakage</h3>
+        <p>Stock passing through multiple logistics points is vulnerable to unrecorded diversion and adulteration.</p>
       </div>
-      <div class="info-card" data-reveal style="--i:2">
+      <div class="info-card">
         <span class="icon-tile"><i class="bi bi-pencil-square" aria-hidden="true"></i></span>
-        <h3>Data Manipulation</h3>
-        <p>Centralized records create opportunities for unauthorized changes.</p>
+        <h3>Data Tampering</h3>
+        <p>Centralized servers can be vulnerable to unauthorized record alterations and ghost beneficiary inflation.</p>
       </div>
-      <div class="info-card" data-reveal style="--i:3">
+      <div class="info-card">
         <span class="icon-tile"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span>
-        <h3>Delayed Auditing</h3>
-        <p>Manual verification makes auditing slow and expensive.</p>
+        <h3>Delayed Audit Trail</h3>
+        <p>Reconciling national grain distributions takes months rather than real-time automated verification.</p>
       </div>
     </div>
   </div>
@@ -178,82 +182,82 @@
 <!-- ============== SOLUTION SECTION ============== -->
 <section class="section section-alt" id="how-it-works">
   <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">The Solution</span>
-      <h2 class="section-heading">From Distribution to Verification.</h2>
+    <div class="section-head">
+      <span class="eyebrow">The PDSChain Architecture</span>
+      <h2 class="section-heading">How PDSChain Solves It.</h2>
     </div>
     <div class="card-grid">
-      <div class="info-card is-solution" data-reveal style="--i:0">
+      <div class="info-card is-solution">
         <span class="icon-tile"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-        <h3>Immutable Records</h3>
-        <p>Every approved transaction is cryptographically linked.</p>
+        <h3>Cryptographic Ledger</h3>
+        <p>Every bag of grain moved is timestamped, hashed, and chained permanently into an immutable distributed ledger.</p>
       </div>
-      <div class="info-card is-solution" data-reveal style="--i:1">
+      <div class="info-card is-solution">
         <span class="icon-tile"><i class="bi bi-signpost-split" aria-hidden="true"></i></span>
-        <h3>End-to-End Traceability</h3>
-        <p>Track movement from warehouse to Fair Price Shop to beneficiary.</p>
+        <h3>End-to-End Tracking</h3>
+        <p>Track grains seamlessly: Central Depot &rarr; Regional Warehouse &rarr; Fair Price Shop &rarr; Citizen Beneficiary.</p>
       </div>
-      <div class="info-card is-solution" data-reveal style="--i:2">
+      <div class="info-card is-solution">
         <span class="icon-tile"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-        <h3>Federated Verification</h3>
-        <p>Authorized validator nodes independently verify transactions.</p>
+        <h3>Federated Consensus (FBA)</h3>
+        <p>Decentralized quorum slices across Civil Supplies, State Commissions, and oversight bodies guarantee consensus.</p>
       </div>
-      <div class="info-card is-solution" data-reveal style="--i:3">
-        <span class="icon-tile"><i class="bi bi-search" aria-hidden="true"></i></span>
-        <h3>Transparent Auditing</h3>
-        <p>Transactions can be verified without modifying historical records.</p>
+      <div class="info-card is-solution">
+        <span class="icon-tile"><i class="bi bi-patch-check" aria-hidden="true"></i></span>
+        <h3>Citizen Instant Verification</h3>
+        <p>Citizens and inspectors can independently verify rations using cryptographic transaction hashes.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============== PDS WORKFLOW ============== -->
-<section class="section">
+<section class="section" id="workflow">
   <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Process</span>
-      <h2 class="section-heading">One Supply. Five Verified Stages.</h2>
+    <div class="section-head">
+      <span class="eyebrow">End-to-End Workflow</span>
+      <h2 class="section-heading">Citizen &rarr; FPS &rarr; Txn &rarr; Validators &rarr; Consensus &rarr; Blockchain &rarr; Verification</h2>
     </div>
-    <div class="workflow" data-reveal-group>
-      <div class="workflow-step" data-reveal style="--i:0">
-        <div class="workflow-node"><i class="bi bi-building" aria-hidden="true"></i></div>
-        <h4>Warehouse</h4>
-        <p>Stock is received and recorded at source.</p>
+    <div class="workflow">
+      <div class="workflow-step">
+        <div class="workflow-node"><i class="bi bi-person-badge" aria-hidden="true"></i></div>
+        <h4>1. Citizen</h4>
+        <p>Authenticates entitlement via Beneficiary ID at local shop.</p>
       </div>
-      <div class="workflow-step" data-reveal style="--i:1">
+      <div class="workflow-step">
         <div class="workflow-node"><i class="bi bi-shop" aria-hidden="true"></i></div>
-        <h4>Fair Price Shop</h4>
-        <p>Supplies are transferred to local distribution points.</p>
+        <h4>2. Fair Price Shop</h4>
+        <p>Weighs grains and generates cryptographically signed distribution.</p>
       </div>
-      <div class="workflow-step" data-reveal style="--i:2">
-        <div class="workflow-node"><i class="bi bi-people" aria-hidden="true"></i></div>
-        <h4>Beneficiary</h4>
-        <p>Entitlements are issued directly to citizens.</p>
+      <div class="workflow-step">
+        <div class="workflow-node"><i class="bi bi-arrow-left-right" aria-hidden="true"></i></div>
+        <h4>3. Transaction</h4>
+        <p>Broadcasts payload with stock updates to the validator pool.</p>
       </div>
-      <div class="workflow-step" data-reveal style="--i:3">
-        <div class="workflow-node"><i class="bi bi-diagram-3" aria-hidden="true"></i></div>
-        <h4>Blockchain</h4>
-        <p>The transaction is validated and permanently recorded.</p>
+      <div class="workflow-step">
+        <div class="workflow-node"><i class="bi bi-hdd-network" aria-hidden="true"></i></div>
+        <h4>4. Validators (FBA)</h4>
+        <p>12 authorized nodes vote across overlapping quorum slices.</p>
       </div>
-      <div class="workflow-step" data-reveal style="--i:4">
-        <div class="workflow-node"><i class="bi bi-clipboard-check" aria-hidden="true"></i></div>
-        <h4>Audit</h4>
-        <p>Auditors verify the trail without altering history.</p>
+      <div class="workflow-step">
+        <div class="workflow-node"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
+        <h4>5. Verified Block</h4>
+        <p>Transaction anchored into block and verifiable by anyone.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============== BLOCKCHAIN SECTION ============== -->
-<section class="section section-alt" id="blockchain">
+<!-- ============== BLOCKCHAIN CHAIN SECTION ============== -->
+<section class="section section-alt" id="blockchain-preview">
   <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">The Ledger</span>
-      <h2 class="section-heading">Every Transaction Becomes Part of the Record.</h2>
-      <p class="section-sub">Each block links to the one before it, so history can be read but never rewritten.</p>
+    <div class="section-head">
+      <span class="eyebrow">The Blockchain Ledger</span>
+      <h2 class="section-heading">Live Block Sequence.</h2>
+      <p class="section-sub">Blocks link backwards cryptographically, ensuring history cannot be altered or rewritten.</p>
     </div>
 
-    <div class="chain-track" data-reveal>
+    <div class="chain-track">
       <div class="chain-block is-genesis">
         <div class="chain-block-label">Origin</div>
         <div class="chain-block-id">GENESIS</div>
@@ -263,65 +267,65 @@
       </div>
       <div class="chain-block">
         <div class="chain-block-label">Block</div>
+        <div class="chain-block-id">#4278</div>
+        <div class="chain-block-row"><span>Transactions</span><span>29</span></div>
+        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">0xa04b...cd95</span></div>
+        <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+      </div>
+      <div class="chain-block">
+        <div class="chain-block-label">Block</div>
+        <div class="chain-block-id">#4279</div>
+        <div class="chain-block-row"><span>Transactions</span><span>51</span></div>
+        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">0xc30e...1042</span></div>
+        <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
+      </div>
+      <div class="chain-block">
+        <div class="chain-block-label">Block</div>
         <div class="chain-block-id">#4280</div>
-        <div class="chain-block-row"><span>Transactions</span><span>318</span></div>
-        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">7ac1...4d02</span></div>
-        <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
-      </div>
-      <div class="chain-block">
-        <div class="chain-block-label">Block</div>
-        <div class="chain-block-id">#4281</div>
-        <div class="chain-block-row"><span>Transactions</span><span>1,284</span></div>
-        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">91f2...aa91</span></div>
-        <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
-      </div>
-      <div class="chain-block">
-        <div class="chain-block-label">Block</div>
-        <div class="chain-block-id">#4282</div>
-        <div class="chain-block-row"><span>Transactions</span><span>402</span></div>
-        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">c30e...118f</span></div>
+        <div class="chain-block-row"><span>Transactions</span><span>38</span></div>
+        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">0x73ab...ef21</span></div>
         <span class="chain-status"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Verified</span>
       </div>
       <div class="chain-block is-latest">
-        <div class="chain-block-label">Current</div>
-        <div class="chain-block-id">LATEST</div>
-        <div class="chain-block-row"><span>Transactions</span><span>—</span></div>
-        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">pending...</span></div>
-        <span class="chain-status"><i class="bi bi-broadcast" aria-hidden="true"></i> Awaiting Block</span>
+        <div class="chain-block-label">Latest Verified</div>
+        <div class="chain-block-id">#4281</div>
+        <div class="chain-block-row"><span>Transactions</span><span>42</span></div>
+        <div class="chain-block-row"><span class="mono">Hash</span><span class="mono">0x8a7f...92bd</span></div>
+        <span class="chain-status"><i class="bi bi-broadcast" aria-hidden="true"></i> Verified (12/12)</span>
       </div>
     </div>
 
-    <div class="chain-cta" data-reveal>
-      <a href="#" class="btn btn-primary">Explore Blockchain <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+    <div class="chain-cta">
+      <a href="blockchain.html" class="btn btn-primary"><i class="bi bi-diagram-3"></i> Open Blockchain Explorer <i class="bi bi-arrow-right"></i></a>
     </div>
   </div>
 </section>
 
-<!-- ============== FBA CONSENSUS ============== -->
-<section class="section">
+<!-- ============== FBA CONSENSUS SECTION ============== -->
+<section class="section" id="fba">
   <div class="container fba-wrap">
-    <div class="fba-copy" data-reveal>
+    <div class="fba-copy">
       <span class="eyebrow">Consensus Model</span>
-      <h2 class="section-heading">Agreement Without a Single Point of Trust.</h2>
-      <p class="section-sub">PDSChain uses a permissioned Federated Byzantine Agreement model where authorized validators establish trust through overlapping quorum relationships.</p>
+      <h2 class="section-heading">Federated Byzantine Agreement (FBA).</h2>
+      <p class="section-sub">PDSChain achieves Byzantine fault-tolerant consensus without resource-heavy Proof of Work, utilizing overlapping trust slices configured across government entities.</p>
 
       <div class="fba-status-list">
         <div class="fba-status-row">
-          <span class="label"><i class="bi bi-hdd-network" aria-hidden="true"></i> Validators Online</span>
-          <span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> 12 / 12</span>
+          <span class="label"><i class="bi bi-hdd-network" aria-hidden="true"></i> Validator Pool</span>
+          <span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> 12 / 12 Online</span>
         </div>
         <div class="fba-status-row">
-          <span class="label"><i class="bi bi-diagram-2" aria-hidden="true"></i> Quorum</span>
-          <span class="badge badge-info"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Achieved</span>
+          <span class="label"><i class="bi bi-diagram-2" aria-hidden="true"></i> Quorum Slices</span>
+          <span class="badge badge-info"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> 100% Intersecting</span>
         </div>
         <div class="fba-status-row">
-          <span class="label"><i class="bi bi-activity" aria-hidden="true"></i> Consensus</span>
-          <span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Healthy</span>
+          <span class="label"><i class="bi bi-activity" aria-hidden="true"></i> Block Finality</span>
+          <span class="badge badge-success"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Instant Finality</span>
         </div>
       </div>
     </div>
 
-    <div class="node-grid" data-reveal aria-label="12 authorized validator nodes, all online">
+    <div class="node-grid" aria-label="12 authorized validator nodes">
       <div class="node-cell"><span class="dot"></span><span>N01</span></div>
       <div class="node-cell"><span class="dot"></span><span>N02</span></div>
       <div class="node-cell"><span class="dot"></span><span>N03</span></div>
@@ -338,135 +342,67 @@
   </div>
 </section>
 
-<!-- ============== TRANSPARENCY / VERIFICATION ============== -->
-<section class="section section-alt" id="transparency">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Verification</span>
-      <h2 class="section-heading">Every Distribution Leaves a Verifiable Trail.</h2>
-    </div>
-
-    <div class="verify-wrap" data-reveal="scale">
-      <div class="verify-card">
-        <div class="verify-top">
-          <div>
-            <div class="eyebrow" style="margin-bottom:6px;">Transaction Verified</div>
-            <div class="mono" style="font-size:15px; font-weight:700;">TXN-004281</div>
-          </div>
-          <span class="verify-check"><i class="bi bi-check-lg" aria-hidden="true"></i></span>
-        </div>
-
-        <div class="block-row"><span>Item</span><span>Rice · 50 KG</span></div>
-
-        <div class="verify-route">
-          <div class="stop">
-            <div class="id">WH-003</div>
-            <div class="name">Warehouse</div>
-          </div>
-          <i class="bi bi-arrow-right" aria-hidden="true"></i>
-          <div class="stop">
-            <div class="id">FPS-102</div>
-            <div class="name">Fair Price Shop</div>
-          </div>
-        </div>
-
-        <div class="verify-meta">
-          <div class="item"><div class="k">Block</div><div class="v">#4281</div></div>
-          <div class="item"><div class="k">Timestamp</div><div class="v">29 Aug 2026 · 10:42 AM</div></div>
-          <div class="item"><div class="k">Hash</div><div class="v mono">91f2...aa91</div></div>
-          <div class="item"><div class="k">Validators</div><div class="v">12 / 12</div></div>
-        </div>
-
-        <div class="verify-footer"><i class="bi bi-shield-check" aria-hidden="true"></i> Verified on Blockchain</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============== STATISTICS ============== -->
-<section class="section">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Scale</span>
-      <h2 class="section-heading">Infrastructure Built for National Scale.</h2>
-    </div>
-    <div class="stats-grid" data-reveal-group>
-      <div class="stat-card" data-reveal style="--i:0">
-        <div class="stat-value" data-counter="342891">0</div>
-        <div class="stat-label">Beneficiaries</div>
-      </div>
-      <div class="stat-card" data-reveal style="--i:1">
-        <div class="stat-value" data-counter="1248">0</div>
-        <div class="stat-label">Fair Price Shops</div>
-      </div>
-      <div class="stat-card" data-reveal style="--i:2">
-        <div class="stat-value" data-counter="86">0</div>
-        <div class="stat-label">Warehouses</div>
-      </div>
-      <div class="stat-card" data-reveal style="--i:3">
-        <div class="stat-value" data-counter="8421">0</div>
-        <div class="stat-label">Transactions Today</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============== FINAL CTA ============== -->
-<section class="cta-final" id="about">
+<section class="cta-final">
   <div class="container">
-    <span class="eyebrow" style="justify-content:center;">Get Started</span>
-    <h2 class="section-heading" style="margin-top:14px;">Make Every Distribution Verifiable.</h2>
-    <p class="section-sub">Build a more transparent, accountable and trusted Public Distribution System.</p>
+    <span class="eyebrow" style="justify-content:center;">Demonstration Prototype</span>
+    <h2 class="section-heading" style="margin-top:14px;">Explore Role-Based Workflows</h2>
+    <p class="section-sub">Experience the complete distribution ecosystem as an Administrator, Warehouse Officer, Fair Price Shop Officer, Citizen, or Validator.</p>
     <div class="cta-actions">
-      <a href="#" class="btn btn-primary">Enter Platform <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
-      <a href="#blockchain" class="btn btn-secondary">Explore Blockchain</a>
+      <a href="login.html" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Sign In to Demo</a>
+      <a href="register.html" class="btn btn-secondary"><i class="bi bi-person-plus"></i> Register Citizen / Officer</a>
     </div>
   </div>
 </section>
 
 </main>
 
-<script src="../js/main.js" defer></script>
-
 <!-- ============== FOOTER ============== -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#top" class="brand">
+        <a href="index.html" class="brand">
           <span class="brand-mark"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
           PDSChain
         </a>
         <p>Blockchain infrastructure for a transparent and accountable Public Distribution System.</p>
       </div>
       <div class="footer-col">
-        <h5>Platform</h5>
+        <h5>Workspaces</h5>
         <ul>
-          <li><a href="#platform">Overview</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="admin/admin.html">Admin Workspace</a></li>
+          <li><a href="warehouse/warehouse.html">Warehouse Workspace</a></li>
+          <li><a href="shop/shop.html">Fair Price Shop</a></li>
+          <li><a href="citizen/citizen.html">Citizen Portal</a></li>
+          <li><a href="validator/validator.html">Validator Node</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Blockchain</h5>
+        <h5>Explorer</h5>
         <ul>
-          <li><a href="#blockchain">Explorer</a></li>
-          <li><a href="#transparency">Transparency</a></li>
+          <li><a href="blockchain.html">Blockchain Explorer</a></li>
+          <li><a href="transaction.html">Verify Transaction</a></li>
+          <li><a href="validator/quorum.html">Quorum Visualizer</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Company</h5>
+        <h5>Account</h5>
         <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="login.html">Demo Sign In</a></li>
+          <li><a href="register.html">Register Account</a></li>
+          <li><a href="settings.html">Settings</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year">2026</span> PDSChain</span>
-      <span>Blockchain-Based Public Distribution System</span>
+      <span>© <span id="year">2026</span> PDSChain — Academic Project Prototype</span>
+      <span>Blockchain-Based Public Distribution System (FBA Simulation)</span>
     </div>
   </div>
 </footer>
 
+<script src="../js/main.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

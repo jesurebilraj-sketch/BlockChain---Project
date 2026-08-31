@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verify Beneficiaries — Fair Price Shop — PDSChain</title>
+<meta name="description" content="Search and verify citizen ration card quotas and eligibility at FPS-102." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/shop.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="shop.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="shop.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="distribution.html" class="sidebar-link"><i class="bi bi-cart-check-fill"></i><span>Distribute Rations</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Citizens &amp; Stock</div>
+      <ul>
+        <li><a href="beneficiaries.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-person-check-fill"></i><span>Verify Citizen</span></a></li>
+        <li><a href="inventory.html" class="sidebar-link"><i class="bi bi-boxes"></i><span>Shop Inventory</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-diagram-3"></i><span>Blockchain</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Txn</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">FPS-102 Online</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search citizens..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">FS</span>
+            <span class="user-menu-text"><span class="name">FPS Officer</span><span class="role">FPS-102 Central Bazaar</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> My Profile</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Citizen Beneficiary Verification Tool</h1>
+          <p>Search and verify citizen entitlements in real time against the immutable ledger.</p>
+        </div>
+        <a href="distribution.html" class="btn btn-primary"><i class="bi bi-cart-check-fill"></i> Go to Stepper</a>
+      </div>
+
+      <!-- Verification Tool Card -->
+      <div class="verify-search-card" style="margin-bottom:28px;">
+        <label class="form-label" for="beneficiary-search-input">Enter Beneficiary ID (e.g. BEN-1001, BEN-1024, BEN-1002, BEN-1003):</label>
+        <div class="verify-search-row">
+          <input type="text" class="form-input" id="beneficiary-search-input" value="BEN-1024" placeholder="Enter Beneficiary ID..." />
+          <button class="btn btn-primary" id="beneficiary-search-btn" type="button"><i class="bi bi-person-check-fill"></i> Check Eligibility</button>
+        </div>
+        <div id="beneficiary-search-result" class="verify-result is-visible is-success">
+          <i class="bi bi-check-circle-fill"></i>
+          <div>
+            <strong style="display:block;font-size:15px;margin-bottom:4px;">Arun Kumar (BEN-1024) — <span class="badge badge-success">ELIGIBLE ✓</span></strong>
+            <span>Household: 4 Members | Entitlements: Rice 40kg, Wheat 15kg, Sugar 3kg | Status: ACTIVE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assigned Beneficiary Table -->
+      <div class="table-card">
+        <div class="table-head" style="padding:16px 20px; border-bottom:1px solid var(--border);">
+          <h3>Citizens Registered to FPS-102 Central Bazaar</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Beneficiary ID</th>
+                <th>Name</th>
+                <th>Household Size</th>
+                <th>Monthly Quota</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="mono font-bold">BEN-1024</span></td>
+                <td><strong>Arun Kumar</strong></td>
+                <td>4 Members</td>
+                <td>Rice: 40kg, Wheat: 15kg, Sugar: 3kg</td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td><a href="distribution.html" class="btn-action-sm is-primary"><i class="bi bi-cart-plus"></i> Issue</a></td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">BEN-1001</span></td>
+                <td><strong>Ravi Kumar</strong></td>
+                <td>4 Members</td>
+                <td>Rice: 20kg, Wheat: 10kg, Sugar: 2kg</td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td><a href="distribution.html" class="btn-action-sm is-primary"><i class="bi bi-cart-plus"></i> Issue</a></td>
+              </tr>
+              <tr>
+                <td><span class="mono font-bold">BEN-0887</span></td>
+                <td><strong>Sunita Rani</strong></td>
+                <td>3 Members</td>
+                <td>Rice: 15kg, Wheat: 8kg, Sugar: 2kg</td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td><a href="distribution.html" class="btn-action-sm is-primary"><i class="bi bi-cart-plus"></i> Issue</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/shop.js"></script>
+</body>
+</html>
+

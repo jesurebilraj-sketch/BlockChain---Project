@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quorum Slice Visualizer — Validator — PDSChain</title>
+<meta name="description" content="Interactive Federated Byzantine Agreement (FBA) quorum slice graph and node failure simulator on PDSChain." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/animations.css" />
+<link rel="stylesheet" href="../../css/components.css" />
+<link rel="stylesheet" href="../../css/dashboard.css" />
+<link rel="stylesheet" href="../../css/validator.css" />
+<link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body class="dash-body">
+<a href="#dash-main-content" class="skip-link">Skip to content</a>
+
+<div class="dash-shell" id="dash-shell">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="dash-sidebar" id="dash-sidebar" aria-label="Primary">
+    <div class="sidebar-head">
+      <span class="brand-mark"><i class="bi bi-shield-check"></i></span>
+      <a href="validator.html" class="brand"><span class="label">PDSChain</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-group-label">Overview</div>
+      <ul>
+        <li><a href="validator.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a></li>
+        <li><a href="consensus.html" class="sidebar-link"><i class="bi bi-broadcast"></i><span>Consensus Rounds</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">FBA Network</div>
+      <ul>
+        <li><a href="quorum.html" class="sidebar-link is-active" aria-current="page"><i class="bi bi-diagram-2-fill"></i><span>Quorum Slices</span></a></li>
+        <li><a href="blocks.html" class="sidebar-link"><i class="bi bi-diagram-3-fill"></i><span>Mined Blocks</span></a></li>
+      </ul>
+      <div class="sidebar-group-label">Ledger &amp; Explorer</div>
+      <ul>
+        <li><a href="../blockchain.html" class="sidebar-link"><i class="bi bi-search"></i><span>Explorer</span></a></li>
+        <li><a href="../transaction.html" class="sidebar-link"><i class="bi bi-patch-check"></i><span>Verify Txn</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">
+      <ul style="margin-bottom:10px;">
+        <li><a href="../settings.html" class="sidebar-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-status"><span class="dot"></span><span class="label">NODE-07 Online</span></div>
+    </div>
+  </aside>
+
+  <div class="dash-overlay" id="dash-overlay"></div>
+
+  <!-- ============== MAIN ============== -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Collapse sidebar"><i class="bi bi-layout-sidebar"></i></button>
+        <button class="drawer-toggle-btn" id="drawer-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+
+      <div class="topbar-search">
+        <i class="bi bi-search"></i>
+        <input type="search" placeholder="Search quorum nodes..." aria-label="Global search" />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="bi bi-moon-stars icon-moon"></i>
+          <i class="bi bi-sun icon-sun"></i>
+        </button>
+
+        <div class="dropdown-wrap">
+          <button class="user-menu-btn" type="button" data-dropdown="user-panel">
+            <span class="avatar">VN</span>
+            <span class="user-menu-text"><span class="name">Validator 07</span><span class="role">NODE-07</span></span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-panel user-dropdown" id="user-panel">
+            <a href="../profile.html"><i class="bi bi-person"></i> Node Info</a>
+            <a href="../settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <hr />
+            <a href="#" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-content" id="dash-main-content">
+
+      <div class="page-header">
+        <div>
+          <h1>Federated Quorum Slice Visualizer</h1>
+          <p>Inspect node trust graphs and test network resilience under simulated node failure.</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn btn-secondary" id="btn-simulate-failure"><i class="bi bi-lightning-charge-fill text-danger"></i> Simulate Node Failure</button>
+          <button type="button" class="btn btn-primary" id="btn-restore-node"><i class="bi bi-arrow-clockwise"></i> Restore All Nodes</button>
+        </div>
+      </div>
+
+      <!-- Quorum Visualizer Grid -->
+      <div class="quorum-visualizer">
+
+        <!-- Left: Node Selector -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-title">Select Validator Node</span>
+              <div class="panel-desc">Click a node to inspect its specific quorum slice</div>
+            </div>
+          </div>
+
+          <div class="node-selector-list">
+            <button type="button" class="node-select-btn is-active" data-node="NODE-01" onclick="selectQuorumNode('NODE-01')">NODE-01</button>
+            <button type="button" class="node-select-btn" data-node="NODE-02" onclick="selectQuorumNode('NODE-02')">NODE-02</button>
+            <button type="button" class="node-select-btn" data-node="NODE-03" onclick="selectQuorumNode('NODE-03')">NODE-03</button>
+            <button type="button" class="node-select-btn" data-node="NODE-04" onclick="selectQuorumNode('NODE-04')">NODE-04</button>
+            <button type="button" class="node-select-btn" data-node="NODE-05" onclick="selectQuorumNode('NODE-05')">NODE-05</button>
+            <button type="button" class="node-select-btn" data-node="NODE-06" onclick="selectQuorumNode('NODE-06')">NODE-06</button>
+            <button type="button" class="node-select-btn" data-node="NODE-07" onclick="selectQuorumNode('NODE-07')">NODE-07</button>
+            <button type="button" class="node-select-btn" data-node="NODE-08" onclick="selectQuorumNode('NODE-08')">NODE-08</button>
+            <button type="button" class="node-select-btn" data-node="NODE-09" onclick="selectQuorumNode('NODE-09')">NODE-09</button>
+            <button type="button" class="node-select-btn" data-node="NODE-10" onclick="selectQuorumNode('NODE-10')">NODE-10</button>
+            <button type="button" class="node-select-btn" data-node="NODE-11" onclick="selectQuorumNode('NODE-11')">NODE-11</button>
+            <button type="button" class="node-select-btn" data-node="NODE-12" onclick="selectQuorumNode('NODE-12')">NODE-12</button>
+          </div>
+        </div>
+
+        <!-- Right: Quorum Slice Details -->
+        <div class="quorum-details-box">
+          <div class="panel-head">
+            <div>
+              <span class="panel-title" id="quorum-target-node">NODE-01</span>
+              <div class="panel-desc" id="quorum-target-org">Ministry of Consumer Affairs</div>
+            </div>
+            <span class="badge badge-info" id="quorum-target-threshold">3 of 4</span>
+          </div>
+
+          <p class="muted" style="font-size:13px; margin:16px 0;">
+            A <strong>quorum slice</strong> is a subset of nodes that this validator chooses to trust. Agreement is reached when a threshold of trusted nodes vote identically.
+          </p>
+
+          <div style="font-size:13px; font-weight:700; margin-bottom:10px;">Trusted Slice Members:</div>
+          <div id="quorum-slices-list"></div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer class="auth-footer">
+      <div class="container" style="max-width:1400px;">
+        <strong>PDSChain</strong> — Blockchain-Based Public Distribution System · © <span id="year">2026</span> PDSChain
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../../js/main.js"></script>
+<script src="../../js/dashboard.js"></script>
+<script src="../../js/validator.js"></script>
+</body>
+</html>
+
