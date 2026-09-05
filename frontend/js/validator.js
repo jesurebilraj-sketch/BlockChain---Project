@@ -72,8 +72,16 @@
     failNodeBtn.addEventListener("click", function () {
       offlineNodes.add("NODE-07");
       updateNetworkVisualization();
+
+      // Notify backend
+      fetch("http://localhost:3000/api/validators/VAL-07/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "Offline" })
+      }).catch(function () {});
+
       if (window.showToast) {
-        window.showToast("Simulated Node Failure: NODE-07 went OFFLINE. FBA Quorum maintained (11/12).", "warning");
+        window.showToast("Simulated Node Failure: VAL-07 (NODE-07) went OFFLINE. FBA Quorum maintained (11/12).", "warning");
       }
     });
   }
@@ -82,8 +90,16 @@
     restoreNodeBtn.addEventListener("click", function () {
       offlineNodes.clear();
       updateNetworkVisualization();
+
+      // Notify backend
+      fetch("http://localhost:3000/api/validators/VAL-07/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "Online" })
+      }).catch(function () {});
+
       if (window.showToast) {
-        window.showToast("Restored all nodes. Network is 100% ONLINE (12/12).", "success");
+        window.showToast("Restored all validator nodes. Network is 100% ONLINE (12/12).", "success");
       }
     });
   }

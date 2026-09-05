@@ -109,14 +109,48 @@
         submitBtn.classList.add("btn-loading");
       }
 
-      setTimeout(function () {
+      // Try Backend API First
+      fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username, password: password })
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (resData) {
+        if (resData.success && resData.token) {
+          localStorage.setItem("pdschain_jwt_token", resData.token);
+          var effectiveRole = (selectedRole || resData.user.role || "citizen").toLowerCase();
+          var destination = effectiveRole + "/" + effectiveRole + ".html";
+          if (effectiveRole === "admin") destination = "admin/admin.html";
+
+          localStorage.setItem("pds_role", effectiveRole);
+          localStorage.setItem("pds_username", resData.user.username);
+          sessionStorage.setItem("pdschain-user", JSON.stringify({
+            username: resData.user.username,
+            role: effectiveRole,
+            name: resData.user.name,
+            entityId: resData.user.entityId,
+            timestamp: new Date().toISOString()
+          }));
+
+          if (statusBox) {
+            statusBox.hidden = false;
+            statusBox.className = "form-status is-success";
+            statusBox.innerHTML = '<i class="bi bi-check-circle-fill"></i> Authenticated via PDSChain Backend API. Redirecting to ' + effectiveRole.toUpperCase() + ' dashboard…';
+          }
+
+          setTimeout(function () { window.location.href = destination; }, 700);
+        } else {
+          throw new Error(resData.message || "Invalid credentials");
+        }
+      })
+      .catch(function (apiErr) {
+        // Graceful Client Fallback
         var user = DEMO_USERS[username];
-        // Allow matching either exact username or matching password if role selected
         if (user && user.password === password) {
           var effectiveRole = selectedRole || user.role;
           var destination = user.redirect;
 
-          // If role was explicitly selected and differs, adjust destination
           if (selectedRole) {
             destination = selectedRole + "/" + selectedRole + ".html";
             effectiveRole = selectedRole;
@@ -137,9 +171,7 @@
             statusBox.innerHTML = '<i class="bi bi-check-circle-fill"></i> Authenticated. Redirecting to ' + effectiveRole.toUpperCase() + ' dashboard…';
           }
 
-          setTimeout(function () {
-            window.location.href = destination;
-          }, 700);
+          setTimeout(function () { window.location.href = destination; }, 700);
         } else {
           if (submitBtn) {
             submitBtn.disabled = false;
@@ -148,10 +180,10 @@
           if (statusBox) {
             statusBox.hidden = false;
             statusBox.className = "form-status is-error";
-            statusBox.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Invalid credentials. Try demo credentials: <strong>admin</strong> / <strong>admin123</strong>';
+            statusBox.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> ' + (apiErr.message || 'Invalid credentials. Try demo credentials: <strong>admin</strong> / <strong>admin123</strong>');
           }
         }
-      }, 500);
+      });
     });
 
     // Forgot password trigger
