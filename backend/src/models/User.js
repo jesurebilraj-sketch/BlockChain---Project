@@ -40,7 +40,15 @@ const User = sequelize.define('User', {
   }
 }, {
   tableName: 'users',
-  timestamps: true
+  timestamps: true,
+  defaultScope: {
+    attributes: { exclude: ['passwordHash'] }
+  },
+  scopes: {
+    withPassword: {
+      attributes: {}
+    }
+  }
 });
 
 module.exports = User;

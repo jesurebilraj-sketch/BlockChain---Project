@@ -211,20 +211,20 @@ async function generateSeedData() {
     org: v.org,
     publicKey: v.publicKey,
     status: v.status,
-    blockHeight: 4281,
+    blockHeight: 4,
     heartbeat: 'Just now',
     txValidated: 14280 - (idx * 2),
     participation: idx === 2 || idx === 9 ? '99.9%' : '100%',
     trustConfiguration: v.trustConfiguration
   }));
 
-  // 8. Initial Verified Transactions
+  // 8. Initial Verified Transactions (Aligned with real chain blocks #2, #3, #4)
   const transactions = [
-    { transactionId: "TXN-004281", beneficiaryId: "BEN-1024", beneficiaryName: "Arun Kumar", shopId: "FPS-102", commodity: "Rice", quantity: 5, unit: "KG", blockNumber: 4281, blockHash: "0x8a7f92bd41e2aa91", hash: "0x8a7f92bd41e2aa91", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 09:40 AM" },
-    { transactionId: "TXN-004280", beneficiaryId: "BEN-0887", beneficiaryName: "Sunita Rani", shopId: "FPS-102", commodity: "Wheat", quantity: 5, unit: "KG", blockNumber: 4280, blockHash: "0x73ab18cd9940ef21", hash: "0x73ab18cd9940ef21", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 09:05 AM" },
-    { transactionId: "TXN-004279", beneficiaryId: "BEN-2114", beneficiaryName: "K. Venkatesh", shopId: "FPS-101", commodity: "Rice", quantity: 10, unit: "KG", blockNumber: 4279, blockHash: "0xc30e118fbb671042", hash: "0xc30e118fbb671042", fbaValidators: 11, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 08:32 AM" },
-    { transactionId: "TXN-004278", beneficiaryId: "BEN-1031", beneficiaryName: "Ananya Patel", shopId: "FPS-103", commodity: "Sugar", quantity: 2, unit: "KG", blockNumber: 4278, blockHash: "0xa04b9e218731cd95", hash: "0xa04b9e218731cd95", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 08:05 AM" },
-    { transactionId: "TXN-004275", beneficiaryId: "BEN-1002", beneficiaryName: "Priya Sharma", shopId: "FPS-118", commodity: "Wheat", quantity: 8, unit: "KG", blockNumber: 4277, blockHash: "0x54ec77a10982bb31", hash: "0x54ec77a10982bb31", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-29 05:15 PM" }
+    { transactionId: "TXN-004281", beneficiaryId: "BEN-1024", beneficiaryName: "Arun Kumar", shopId: "FPS-102", commodity: "Rice", quantity: 5, unit: "KG", blockNumber: 4, blockHash: "0x8a7f92bd41e2aa91", hash: "0x8a7f92bd41e2aa91", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 09:40 AM" },
+    { transactionId: "TXN-004280", beneficiaryId: "BEN-0887", beneficiaryName: "Sunita Rani", shopId: "FPS-102", commodity: "Wheat", quantity: 5, unit: "KG", blockNumber: 4, blockHash: "0x73ab18cd9940ef21", hash: "0x73ab18cd9940ef21", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 09:05 AM" },
+    { transactionId: "TXN-004279", beneficiaryId: "BEN-2114", beneficiaryName: "K. Venkatesh", shopId: "FPS-101", commodity: "Rice", quantity: 10, unit: "KG", blockNumber: 3, blockHash: "0xc30e118fbb671042", hash: "0xc30e118fbb671042", fbaValidators: 11, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 08:32 AM" },
+    { transactionId: "TXN-004278", beneficiaryId: "BEN-1031", beneficiaryName: "Ananya Patel", shopId: "FPS-103", commodity: "Sugar", quantity: 2, unit: "KG", blockNumber: 3, blockHash: "0xa04b9e218731cd95", hash: "0xa04b9e218731cd95", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-30 08:05 AM" },
+    { transactionId: "TXN-004275", beneficiaryId: "BEN-1002", beneficiaryName: "Priya Sharma", shopId: "FPS-118", commodity: "Wheat", quantity: 8, unit: "KG", blockNumber: 2, blockHash: "0x54ec77a10982bb31", hash: "0x54ec77a10982bb31", fbaValidators: 12, fbaConsensus: true, status: "Verified", timestamp: "2026-08-29 05:15 PM" }
   ];
 
   return {

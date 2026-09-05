@@ -20,13 +20,18 @@ class AuthService {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(data.password, salt);
 
-    const role = (data.role || 'CITIZEN').toUpperCase();
+    let role = (data.role || 'CITIZEN').toUpperCase();
+    // Public self-registration cannot grant ADMIN or VALIDATOR
+    if (['ADMIN', 'VALIDATOR'].includes(role) && !data.isAdminCreated) {
+      role = 'CITIZEN';
+    }
+
     const user = await User.create({
       username: data.username.toLowerCase().trim(),
       passwordHash,
       role,
       name: data.name || data.username,
-      email: data.email || `${data.username}@pdschain.local`,
+      email: data.email || `${data.username.toLowerCase().trim()}@pdschain.local`,
       entityId: data.entityId || null
     });
 
@@ -47,7 +52,7 @@ class AuthService {
   async login(username, password) {
     validateLoginPayload({ username, password });
 
-    const user = await User.findOne({
+    const user = await User.scope('withPassword').findOne({
       where: { username: username.toLowerCase().trim() }
     });
 

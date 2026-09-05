@@ -277,14 +277,48 @@
         regBtn.classList.add("btn-loading");
       }
 
-      setTimeout(function () {
-        if (window.showToast) {
-          window.showToast("Account registered successfully! Redirecting to login...", "success");
+      var usernameFromEmail = emailVal.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g, "");
+
+      fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: usernameFromEmail || nameVal.toLowerCase().replace(/\s+/g, ""),
+          name: nameVal,
+          email: emailVal,
+          password: pwVal,
+          role: "CITIZEN"
+        })
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (resData) {
+        if (resData.success) {
+          if (regStatus) {
+            regStatus.hidden = false;
+            regStatus.className = "form-status is-success";
+            regStatus.innerHTML = '<i class="bi bi-check-circle-fill"></i> Citizen account registered successfully! Redirecting to login…';
+          }
+          if (window.showToast) {
+            window.showToast("Account registered! Redirecting to login...", "success");
+          }
+          setTimeout(function () {
+            window.location.href = "login.html";
+          }, 1200);
+        } else {
+          throw new Error(resData.message || (resData.errors && resData.errors[0]) || "Registration failed");
         }
-        setTimeout(function () {
-          window.location.href = "login.html";
-        }, 1200);
-      }, 700);
+      })
+      .catch(function (err) {
+        if (regBtn) {
+          regBtn.disabled = false;
+          regBtn.classList.remove("btn-loading");
+        }
+        if (regStatus) {
+          regStatus.hidden = false;
+          regStatus.className = "form-status is-error";
+          regStatus.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> ' + (err.message || 'Registration failed. Please check inputs.');
+        }
+      });
     });
   }
 

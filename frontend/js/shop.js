@@ -176,13 +176,20 @@
       },
       body: JSON.stringify(payload)
     })
-    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) {
+          throw new Error(data.message || "Transaction rejected (Status " + res.status + ")");
+        }
+        return data;
+      });
+    })
     .then(function (resData) {
       if (resData.success && resData.transaction) {
         var tx = resData.transaction;
         var blk = resData.block || {};
         workflowState.txnId = tx.transactionId || tx.id;
-        workflowState.blockNumber = blk.blockNumber ? "#" + blk.blockNumber : (tx.block || "#4282");
+        workflowState.blockNumber = blk.blockNumber !== undefined ? "#" + blk.blockNumber : (tx.block || "#5");
         workflowState.blockHash = blk.blockHash || tx.blockHash || tx.hash;
         workflowState.validators = resData.consensus ? resData.consensus.participatingValidators : 12;
 
@@ -212,41 +219,25 @@
           }
         }, 4200);
       } else {
-        throw new Error(resData.message || "Consensus failed");
+        throw new Error(resData.message || "Transaction rejected by validator quorum consensus");
       }
     })
     .catch(function (err) {
-      // Fallback in case backend is offline
-      var randomNum = Math.floor(1000 + Math.random() * 9000);
-      workflowState.txnId = "TXN-00" + randomNum;
-      workflowState.blockNumber = "#4282";
-      workflowState.blockHash = "0x" + Math.random().toString(16).substring(2, 18);
-      workflowState.validators = 12;
+      var errorMsg = err.message || "Transaction failed";
+      if (window.showToast) {
+        window.showToast("Transaction Failed: " + errorMsg, "error");
+      }
 
-      var txnLabel = document.getElementById("sim-txn-id");
-      if (txnLabel) txnLabel.textContent = workflowState.txnId;
+      // Show failure details on the confirmation step
+      var confirmBox = document.getElementById("step4-confirm-details");
+      if (confirmBox) {
+        confirmBox.innerHTML += '<div class="receipt-row" style="color:var(--danger);font-weight:bold;margin-top:10px;"><span class="label">Failure Reason:</span><span class="val">' + errorMsg + '</span></div>';
+      }
 
+      // Return to confirmation step after animation
       setTimeout(function () {
-        data.transactions.unshift({
-          id: workflowState.txnId,
-          beneficiary: workflowState.beneficiaryId,
-          name: workflowState.beneficiaryName,
-          shop: "FPS-102",
-          commodity: workflowState.commodity,
-          qty: workflowState.quantity + " KG",
-          block: workflowState.blockNumber,
-          validators: 12,
-          hash: workflowState.blockHash,
-          status: "Verified",
-          time: "Just now"
-        });
-
-        renderReceipt();
-        window.goToStep(6);
-        if (window.showToast) {
-          window.showToast("Distribution verified & recorded on Block #4282!", "success");
-        }
-      }, 4200);
+        window.goToStep(4);
+      }, 1500);
     });
   }
 

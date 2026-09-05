@@ -1,6 +1,6 @@
 /**
  * 12-Validator Federated Byzantine Agreement (FBA) Configuration
- * Defines the institutional identity, public keys, and trusted quorum slice topology.
+ * Defines the institutional identity, public keys, port assignments, and trusted quorum slice topology.
  */
 
 const DEFAULT_12_VALIDATORS = [
@@ -8,6 +8,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-01',
     name: 'Ministry of Consumer Affairs',
     org: 'Government of India',
+    port: 4001,
+    endpoint: 'http://127.0.0.1:4001',
     publicKey: '0x01A9F4C82E3B7701',
     status: 'Online',
     trustConfiguration: {
@@ -19,6 +21,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-02',
     name: 'National Informatics Centre',
     org: 'NIC Technology Cell',
+    port: 4002,
+    endpoint: 'http://127.0.0.1:4002',
     publicKey: '0x02B8E3D71C4A8812',
     status: 'Online',
     trustConfiguration: {
@@ -30,6 +34,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-03',
     name: 'State Food Commission',
     org: 'State Regulatory Authority',
+    port: 4003,
+    endpoint: 'http://127.0.0.1:4003',
     publicKey: '0x03C7D2A60B5C9923',
     status: 'Online',
     trustConfiguration: {
@@ -41,6 +47,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-04',
     name: 'Civil Supplies Corporation',
     org: 'State Food Logistics',
+    port: 4004,
+    endpoint: 'http://127.0.0.1:4004',
     publicKey: '0x04D6C195FA6D0034',
     status: 'Online',
     trustConfiguration: {
@@ -52,6 +60,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-05',
     name: 'District Administration Node',
     org: 'District Collectorate',
+    port: 4005,
+    endpoint: 'http://127.0.0.1:4005',
     publicKey: '0x05E5B084E97E1145',
     status: 'Online',
     trustConfiguration: {
@@ -63,6 +73,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-06',
     name: 'Auditor General Observer Node',
     org: 'Comptroller & Auditor General',
+    port: 4006,
+    endpoint: 'http://127.0.0.1:4006',
     publicKey: '0x06F4A973D88F2256',
     status: 'Online',
     trustConfiguration: {
@@ -74,6 +86,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-07',
     name: 'Public Audit & Governance Node',
     org: 'Independent Audit Council',
+    port: 4007,
+    endpoint: 'http://127.0.0.1:4007',
     publicKey: '0x07A39862C7903367',
     status: 'Online',
     trustConfiguration: {
@@ -85,6 +99,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-08',
     name: 'Regional Warehouse Authority',
     org: 'Civil Supplies Depots',
+    port: 4008,
+    endpoint: 'http://127.0.0.1:4008',
     publicKey: '0x08B28751B6A14478',
     status: 'Online',
     trustConfiguration: {
@@ -96,6 +112,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-09',
     name: 'Fair Price Shop Union Node',
     org: 'FPS Representative Federation',
+    port: 4009,
+    endpoint: 'http://127.0.0.1:4009',
     publicKey: '0x09C17640A5B25589',
     status: 'Online',
     trustConfiguration: {
@@ -107,6 +125,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-10',
     name: 'State Monitoring Cell',
     org: 'E-Governance Cell',
+    port: 4010,
+    endpoint: 'http://127.0.0.1:4010',
     publicKey: '0x10D0653F94C36690',
     status: 'Online',
     trustConfiguration: {
@@ -118,6 +138,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-11',
     name: 'Citizen Oversight Organisation',
     org: 'Civil Rights & Transparency Forum',
+    port: 4011,
+    endpoint: 'http://127.0.0.1:4011',
     publicKey: '0x11E9542E83D47701',
     status: 'Online',
     trustConfiguration: {
@@ -129,6 +151,8 @@ const DEFAULT_12_VALIDATORS = [
     validatorId: 'VAL-12',
     name: 'Security & Cryptography Validator',
     org: 'National Cryptographic Board',
+    port: 4012,
+    endpoint: 'http://127.0.0.1:4012',
     publicKey: '0x12F8431D72E58812',
     status: 'Online',
     trustConfiguration: {
@@ -141,4 +165,3 @@ const DEFAULT_12_VALIDATORS = [
 module.exports = {
   DEFAULT_12_VALIDATORS
 };
-

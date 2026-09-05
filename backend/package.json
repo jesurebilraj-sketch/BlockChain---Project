@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "seed": "node src/seed/seedDatabase.js"
+    "seed": "node src/seed/seedDatabase.js",
+    "validators:start": "node src/validators/startValidators.js"
   },
   "keywords": [
     "blockchain",

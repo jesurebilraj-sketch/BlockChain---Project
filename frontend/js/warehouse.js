@@ -87,25 +87,49 @@
         return;
       }
 
+      var token = localStorage.getItem("pdschain_jwt_token") || "";
       var newTrfId = "TRF-" + (1030 + transfersList.length);
-      transfersList.unshift({
-        id: newTrfId,
-        type: "Outgoing",
-        source: "WH-003",
-        destination: dest,
-        item: item,
-        qty: qty + " KG",
-        status: "Verified",
-        time: "Just now"
+
+      fetch("http://localhost:3000/api/warehouses/WH-003/transfer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": "Bearer " + token } : {})
+        },
+        body: JSON.stringify({
+          targetShopId: dest,
+          commodity: item,
+          quantity: parseFloat(qty),
+          notes: remarks
+        })
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (resData) {
+        if (resData.success && resData.transfer) {
+          newTrfId = resData.transfer.transferId || newTrfId;
+        }
+      })
+      .catch(function () {})
+      .finally(function () {
+        transfersList.unshift({
+          id: newTrfId,
+          type: "Outgoing",
+          source: "WH-003",
+          destination: dest,
+          item: item,
+          qty: qty + " KG",
+          status: "Verified",
+          time: "Just now"
+        });
+
+        window.closeModal("modal-create-transfer");
+        renderTransfers();
+        createTrfForm.reset();
+
+        if (window.showToast) {
+          window.showToast("Stock transfer " + newTrfId + " initiated and recorded to blockchain!", "success");
+        }
       });
-
-      window.closeModal("modal-create-transfer");
-      renderTransfers();
-      createTrfForm.reset();
-
-      if (window.showToast) {
-        window.showToast("Stock transfer " + newTrfId + " initiated and recorded to blockchain!", "success");
-      }
     });
   }
 

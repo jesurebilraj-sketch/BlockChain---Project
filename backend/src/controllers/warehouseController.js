@@ -106,6 +106,22 @@ class WarehouseController {
       next(err);
     }
   }
+
+  async transferStock(req, res, next) {
+    try {
+      const warehouseId = req.params.id.toUpperCase().trim();
+      const shopId = req.body.shopId || req.body.targetShopId;
+      const commodity = req.body.commodity || req.body.commodityName || req.body.item;
+      const quantity = parseFloat(req.body.quantity);
+      const notes = req.body.notes || req.body.remarks || '';
+
+      const inventoryService = require('../services/inventoryService');
+      const result = await inventoryService.transferStock(warehouseId, shopId, commodity, quantity, notes);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = new WarehouseController();

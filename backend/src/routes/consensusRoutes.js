@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const consensusController = require('../controllers/consensusController');
-const { optionalAuthMiddleware } = require('../middleware/authMiddleware');
+const { authMiddleware, optionalAuthMiddleware } = require('../middleware/authMiddleware');
+const roleMiddleware = require('../middleware/roleMiddleware');
 
-router.get('/status', consensusController.getStatus);
-router.get('/quorum', consensusController.getQuorum);
-router.post('/propose', optionalAuthMiddleware, consensusController.propose);
+router.get('/status', optionalAuthMiddleware, consensusController.getStatus);
+router.get('/quorum', optionalAuthMiddleware, consensusController.getQuorum);
+router.post('/propose', authMiddleware, roleMiddleware('SHOP', 'ADMIN', 'VALIDATOR'), consensusController.propose);
 
 module.exports = router;
-

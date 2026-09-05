@@ -35,6 +35,12 @@ async function authMiddleware(req, res, next) {
 
     next();
   } catch (err) {
+    if (err instanceof UnauthorizedError) {
+      return next(err);
+    }
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError' || err instanceof SyntaxError) {
+      return next(new UnauthorizedError('Invalid authentication token'));
+    }
     next(err);
   }
 }

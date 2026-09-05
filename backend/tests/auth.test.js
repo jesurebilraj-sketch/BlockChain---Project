@@ -2,8 +2,9 @@ const request = require('supertest');
 const app = require('../src/app');
 const { sequelize } = require('../src/config/database');
 const { seedDatabase } = require('../src/seed/seedDatabase');
+const User = require('../src/models/User');
 
-describe('Authentication & Authorization Test Suite', () => {
+describe('Authentication & RBAC Test Suite', () => {
   beforeAll(async () => {
     await seedDatabase(true);
   });
@@ -17,17 +18,31 @@ describe('Authentication & Authorization Test Suite', () => {
       const res = await request(app)
         .post('/api/auth/register')
         .send({
-          username: 'testcitizen',
+          username: 'testcitizen_new',
           password: 'password123',
-          role: 'CITIZEN',
-          name: 'Test Citizen',
-          email: 'testcitizen@pdschain.local'
+          name: 'Test Citizen New',
+          email: 'testcitizen_new@pdschain.local'
         });
 
       expect(res.status).toBe(201);
       expect(res.body.success).toBe(true);
       expect(res.body.token).toBeDefined();
-      expect(res.body.user.username).toBe('testcitizen');
+      expect(res.body.user.username).toBe('testcitizen_new');
+      expect(res.body.user.role).toBe('CITIZEN');
+      expect(res.body.user.passwordHash).toBeUndefined();
+    });
+
+    it('should prevent self-registering as ADMIN and default to CITIZEN', async () => {
+      const res = await request(app)
+        .post('/api/auth/register')
+        .send({
+          username: 'fakeadmin',
+          password: 'password123',
+          role: 'ADMIN',
+          name: 'Fake Admin'
+        });
+
+      expect(res.status).toBe(201);
       expect(res.body.user.role).toBe('CITIZEN');
     });
 
@@ -36,8 +51,7 @@ describe('Authentication & Authorization Test Suite', () => {
         .post('/api/auth/register')
         .send({
           username: 'admin',
-          password: 'password123',
-          role: 'ADMIN'
+          password: 'password123'
         });
 
       expect(res.status).toBe(409);
@@ -70,6 +84,7 @@ describe('Authentication & Authorization Test Suite', () => {
       expect(res.body.success).toBe(true);
       expect(res.body.token).toBeDefined();
       expect(res.body.user.role).toBe('ADMIN');
+      expect(res.body.user.passwordHash).toBeUndefined();
     });
 
     it('should login demo shop officer successfully', async () => {
@@ -98,27 +113,78 @@ describe('Authentication & Authorization Test Suite', () => {
     });
   });
 
-  describe('GET /api/auth/me', () => {
-    it('should return authenticated user profile with valid JWT', async () => {
-      const loginRes = await request(app)
-        .post('/api/auth/login')
-        .send({ username: 'admin', password: 'admin123' });
+  describe('RBAC Route Protection', () => {
+    let adminToken, shopToken, citizenToken;
 
-      const token = loginRes.body.token;
+    beforeAll(async () => {
+      const adminRes = await request(app).post('/api/auth/login').send({ username: 'admin', password: 'admin123' });
+      adminToken = adminRes.body.token;
 
-      const res = await request(app)
-        .get('/api/auth/me')
-        .set('Authorization', `Bearer ${token}`);
+      const shopRes = await request(app).post('/api/auth/login').send({ username: 'shop', password: 'shop123' });
+      shopToken = shopRes.body.token;
 
-      expect(res.status).toBe(200);
-      expect(res.body.success).toBe(true);
-      expect(res.body.user.username).toBe('admin');
+      const citizenRes = await request(app).post('/api/auth/login').send({ username: 'citizen', password: 'citizen123' });
+      citizenToken = citizenRes.body.token;
     });
 
-    it('should reject access without token', async () => {
-      const res = await request(app).get('/api/auth/me');
+    it('should reject access to protected route with no token', async () => {
+      const res = await request(app).get('/api/dashboard/admin');
       expect(res.status).toBe(401);
+    });
+
+    it('should reject access to protected route with invalid token', async () => {
+      const res = await request(app)
+        .get('/api/dashboard/admin')
+        .set('Authorization', 'Bearer invalid.token.payload');
+      expect(res.status).toBe(401);
+    });
+
+    it('should reject citizen accessing admin dashboard (403 Forbidden)', async () => {
+      const res = await request(app)
+        .get('/api/dashboard/admin')
+        .set('Authorization', `Bearer ${citizenToken}`);
+      expect(res.status).toBe(403);
+    });
+
+    it('should allow admin accessing admin dashboard (200 OK)', async () => {
+      const res = await request(app)
+        .get('/api/dashboard/admin')
+        .set('Authorization', `Bearer ${adminToken}`);
+      expect(res.status).toBe(200);
+      expect(res.body.stats).toBeDefined();
+    });
+
+    it('should reject citizen attempting to create a beneficiary (403 Forbidden)', async () => {
+      const res = await request(app)
+        .post('/api/beneficiaries')
+        .set('Authorization', `Bearer ${citizenToken}`)
+        .send({ name: 'Hacked Beneficiary' });
+      expect(res.status).toBe(403);
+    });
+
+    it('should allow admin creating a beneficiary (201 Created)', async () => {
+      const res = await request(app)
+        .post('/api/beneficiaries')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({ name: 'Official Citizen Beneficiary', region: 'Chennai Central', household: 4 });
+      expect(res.status).toBe(201);
+      expect(res.body.beneficiary.name).toBe('Official Citizen Beneficiary');
+    });
+
+    it('should reject citizen attempting to distribute ration (403 Forbidden)', async () => {
+      const res = await request(app)
+        .post('/api/transactions')
+        .set('Authorization', `Bearer ${citizenToken}`)
+        .send({ beneficiaryId: 'BEN-1001', shopId: 'FPS-102', commodity: 'Rice', quantity: 5 });
+      expect(res.status).toBe(403);
+    });
+
+    it('should allow shop officer accessing shop dashboard (200 OK)', async () => {
+      const res = await request(app)
+        .get('/api/dashboard/shop?shopId=FPS-102')
+        .set('Authorization', `Bearer ${shopToken}`);
+      expect(res.status).toBe(200);
+      expect(res.body.shopId).toBe('FPS-102');
     });
   });
 });
-

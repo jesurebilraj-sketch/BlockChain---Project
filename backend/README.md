@@ -1,8 +1,8 @@
 # PDSChain Backend — Production-Quality API & 12-Validator FBA Consensus Engine
 
 > **Project:** PDSChain — Blockchain-Based Public Distribution System  
-> **Consensus Mechanism:** Federated Byzantine Agreement (FBA) with 12 Institutional Nodes  
-> **Database:** Sequelize ORM (Dual-Dialect: PostgreSQL / Persistent SQLite fallback)  
+> **Consensus Mechanism:** Federated Byzantine Agreement (FBA) with 12 Distributed/Institutional Nodes  
+> **Database:** Sequelize ORM (Dual-Dialect: PostgreSQL / Persistent SQLite fallback with ACID Transactions)  
 > **Version:** 1.0.0 (Production-Quality Academic Prototype)
 
 ---
@@ -12,12 +12,12 @@
 **PDSChain** is an enterprise-grade backend architecture engineered to bring transparency, cryptographic immutability, tamper resistance, and real-time accountability to grain distribution under the Public Distribution System (PDS).
 
 The backend delivers:
-- **Persistent Database Storage:** Sequelize ORM with persistent storage surviving restarts.
-- **Federated Byzantine Agreement (FBA) Consensus Engine:** 12 institutional validator nodes with mathematically verified quorum slice intersection logic.
+- **Persistent Database Storage:** Sequelize ORM with persistent SQLite/PostgreSQL storage and ACID database transaction rollback protection.
+- **Federated Byzantine Agreement (FBA) Consensus Engine:** 12 institutional validator nodes with mathematically verified quorum slice intersection logic, supporting both in-process evaluation and multi-process HTTP validator servers (`VAL-01` to `VAL-12` on ports `4001`–`4012`).
 - **Deterministic Blockchain Ledger:** SHA-256 block hashing, Merkle root tree calculations, previous-hash chaining, and tamper-detection validator.
-- **Full PDS Business Rules:** Beneficiary eligibility verification, family monthly quota tracking, shop stock constraints, and duplicate transaction debounce protection.
+- **Full PDS Business Rules & Atomic Transfers:** Beneficiary eligibility verification, family monthly quota tracking, shop stock constraints, duplicate debounce protection, and atomic warehouse-to-shop transfers.
 - **Role-Based Authentication (RBAC):** JWT tokens with bcrypt password hashing across 5 roles (`ADMIN`, `SHOP`, `WAREHOUSE`, `CITIZEN`, `VALIDATOR`).
-- **Automated Testing Suite:** 37 Jest unit and integration tests covering auth, transactions, blockchain, consensus, and REST endpoints.
+- **Automated Testing Suite:** 47 comprehensive Jest unit and integration tests covering auth & RBAC, atomic transactions, warehouse transfers, blockchain integrity, 12-node consensus, and REST endpoints.
 
 ---
 
@@ -26,25 +26,26 @@ The backend delivers:
 ```
                               +---------------------------------------------+
                               |         PDSCHAIN FRONTEND PROTOTYPE         |
-                              |   (35 HTML Pages / Vanilla JS / Chart.js)   |
+                              |   (35 HTML Pages / Vanilla JS / api.js)     |
                               +---------------------------------------------+
                                                      |
-                                                     | REST APIs / JSON (CORS)
+                                                     | REST APIs / JWT Auth / JSON (CORS)
                                                      v
 +---------------------------------------------------------------------------------------------------------+
-|                                        EXPRESS BACKEND SERVER                                           |
+|                                        EXPRESS BACKEND SERVER (Port 3000)                                |
 |                                                                                                         |
 |  +-------------------------------------+  +----------------------------------------------------------+  |
-|  |       Authentication & RBAC         |  |                   PDS Business Logic                     |  |
-|  |  - JWT token issuance & verify      |  |  - Beneficiary eligibility & monthly quota tracking      |  |
-|  |  - Bcrypt password hashing          |  |  - Shop & warehouse inventory allocation                 |  |
-|  |  - Role access control (5 roles)    |  |  - Duplicate transaction debounce protection             |  |
+|  |       Authentication & RBAC         |  |         Atomic PDS Business Logic & Transactions         |  |
+|  |  - JWT token issuance & verify      |  |  - Managed Sequelize transactions (ACID / Rollback)      |  |
+|  |  - Bcrypt password hashing          |  |  - Beneficiary eligibility & monthly quota tracking      |  |
+|  |  - Strict Role Guards (5 roles)     |  |  - Atomic Warehouse-to-Shop transfers (TRF-xxxx)         |  |
 |  +-------------------------------------+  +----------------------------------------------------------+  |
 |                                                     |                                                   |
 |                                                     v                                                   |
 |  +---------------------------------------------------------------------------------------------------+  |
 |  |                    12-VALIDATOR FEDERATED BYZANTINE AGREEMENT (FBA) ENGINE                        |  |
 |  |  - Institutional Identities: VAL-01 (Consumer Affairs) ... VAL-12 (National Crypto Board)          |  |
+|  |  - Distributed Mode: 12 HTTP Validator Micro-Servers (Ports 4001-4012: /proposal, /vote)          |  |
 |  |  - Quorum Slice Evaluation: S(v) with threshold k out of n peers                                 |  |
 |  |  - Intersecting Quorum Discovery: findQuorum(U, V)                                                |  |
 |  |  - Byzantine Failure Tolerance: Simulation of offline nodes & recovery                           |  |
@@ -60,7 +61,7 @@ The backend delivers:
 |  +---------------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------------------------------------------------------------+
                                                      |
-                                                     | Sequelize ORM Layer
+                                                     | Sequelize ORM Layer (ACID Transactions)
                                                      v
                                 +------------------------------------------+
                                 |             PERSISTENT STORAGE           |
@@ -91,21 +92,22 @@ backend/
 │   │   ├── Warehouse.js                # Regional grain silos & depots
 │   │   ├── Commodity.js                # Rice, Wheat, Sugar, Pulses, Kerosene
 │   │   ├── Inventory.js                # Shop & warehouse stock quantities
+│   │   ├── StockTransfer.js            # Inter-facility warehouse-to-shop stock transfers
 │   │   ├── Transaction.js              # Ration distribution transaction logs
 │   │   ├── Block.js                    # Persisted blockchain block records
 │   │   └── Validator.js                # 12 Validator node identities & trust configs
 │   │
 │   ├── middleware/
 │   │   ├── authMiddleware.js           # JWT verification & user injection
-│   │   ├── roleMiddleware.js           # Role restriction guard
+│   │   ├── roleMiddleware.js           # Strict role restriction guard
 │   │   ├── validationMiddleware.js     # Schema validation helpers
 │   │   └── errorMiddleware.js          # Centralized structured JSON error handler
 │   │
 │   ├── services/
 │   │   ├── authService.js              # Registration, bcrypt login, JWT issuance
 │   │   ├── entitlementService.js       # Citizen eligibility & quota calculation
-│   │   ├── inventoryService.js         # Shop stock checks & atomic deductions
-│   │   ├── transactionService.js       # PDS distribution pipeline orchestration
+│   │   ├── inventoryService.js         # Shop stock checks & atomic transfers
+│   │   ├── transactionService.js       # PDS distribution pipeline with Sequelize transactions
 │   │   ├── blockchainService.js        # Chain query, block addition & sync
 │   │   ├── validatorService.js         # Validator status management & telemetry
 │   │   └── consensusService.js         # FBA consensus rounds coordinator
@@ -120,8 +122,13 @@ backend/
 │   │   ├── ValidatorNode.js            # Node class (identity, status, vote evaluation)
 │   │   ├── QuorumSlice.js              # Quorum slice definition & threshold evaluator
 │   │   ├── Quorum.js                   # FBA quorum search algorithm
-│   │   ├── FBAConsensus.js             # FBA consensus coordinator
-│   │   └── consensusConfig.js          # 12-node institutional topology & trust graph
+│   │   ├── FBAConsensus.js             # FBA consensus coordinator (HTTP & in-process)
+│   │   └── consensusConfig.js          # 12-node institutional topology & HTTP port mappings
+│   │
+│   ├── validators/
+│   │   ├── validatorServer.js          # Standalone HTTP Validator server for multi-process mode
+│   │   ├── startValidators.js          # Launcher for 12 distributed node instances (ports 4001-4012)
+│   │   └── schemas.js                  # Request body validation schemas
 │   │
 │   ├── controllers/
 │   │   ├── authController.js
@@ -147,9 +154,6 @@ backend/
 │   │   ├── dashboardRoutes.js
 │   │   └── index.js                    # Root API router & /api/health
 │   │
-│   ├── validators/
-│   │   └── schemas.js                  # Request body validation schemas
-│   │
 │   ├── utils/
 │   │   ├── logger.js                   # Structured logging utility
 │   │   ├── errors.js                   # Custom HTTP error classes (AppError, etc.)
@@ -160,7 +164,8 @@ backend/
 │       └── seedDatabase.js             # Repeatable database & blockchain seed script
 │
 ├── tests/
-│   ├── auth.test.js                    # Auth & JWT integration tests
+│   ├── auth.test.js                    # Auth & RBAC integration tests
+│   ├── warehouse.test.js               # Warehouse-to-shop atomic stock transfer tests
 │   ├── transaction.test.js             # PDS business logic & quota tests
 │   ├── blockchain.test.js              # Chain tampering & hashing tests
 │   ├── consensus.test.js               # 12-node FBA quorum & failure tests
@@ -208,7 +213,7 @@ CORS_ORIGIN=*
 
 ---
 
-## 5. Running the Backend & Seeding
+## 5. Running the Backend, Distributed Validators & Tests
 
 ### 1. Seed the Database
 Populates 100 citizen beneficiaries, 20 Fair Price Shops, 5 Warehouses, 12 Validator nodes, 5 commodities, 125 inventory stock items, and 5 verified blockchain blocks:
@@ -217,7 +222,7 @@ Populates 100 citizen beneficiaries, 20 Fair Price Shops, 5 Warehouses, 12 Valid
 npm run seed
 ```
 
-### 2. Start the Server
+### 2. Start the Express Backend Server
 ```bash
 # Production start
 npm start
@@ -227,10 +232,18 @@ npm run dev
 ```
 The server will be live at `http://localhost:3000`.
 
-### 3. Run Automated Tests
+### 3. (Optional) Launch the 12 Distributed Validator Node Servers
+To demonstrate real distributed multi-node consensus over HTTP micro-services:
 ```bash
-npm test
+npm run validators:start
 ```
+This spawns 12 independent validator HTTP processes on ports `4001` through `4012`, each handling `/proposal`, `/vote`, `/status`, `/health`, and `/chain`.
+
+### 4. Run Automated Tests
+```bash
+npm test -- --runInBand
+```
+Runs all 47 tests across 6 test suites covering RBAC, atomic transfers, consensus, and blockchain integrity.
 
 ---
 
@@ -250,28 +263,28 @@ The seed script creates pre-configured demo user accounts:
 
 ## 7. 12-Validator Federated Byzantine Agreement (FBA)
 
-### Institutional Validator Topology
+### Institutional Validator Topology & Port Map
 
-| Node ID | Institutional Identity | Public Key / Representation | Quorum Slice Members | Threshold |
-| :--- | :--- | :--- | :--- | :---: |
-| `VAL-01` | Ministry of Consumer Affairs | `0x01A9F4C82E3B7701` | `VAL-01`, `VAL-02`, `VAL-03`, `VAL-04` | 3 of 4 |
-| `VAL-02` | National Informatics Centre (NIC) | `0x02B8E3D71C4A8812` | `VAL-02`, `VAL-03`, `VAL-05`, `VAL-06` | 3 of 4 |
-| `VAL-03` | State Food Commission | `0x03C7D2A60B5C9923` | `VAL-01`, `VAL-03`, `VAL-07`, `VAL-08` | 3 of 4 |
-| `VAL-04` | Civil Supplies Corporation | `0x04D6C195FA6D0034` | `VAL-01`, `VAL-04`, `VAL-09`, `VAL-10` | 3 of 4 |
-| `VAL-05` | District Administration Node | `0x05E5B084E97E1145` | `VAL-02`, `VAL-05`, `VAL-07`, `VAL-11` | 3 of 4 |
-| `VAL-06` | Auditor General Observer Node | `0x06F4A973D88F2256` | `VAL-02`, `VAL-06`, `VAL-08`, `VAL-12` | 3 of 4 |
-| `VAL-07` | Public Audit & Governance Node | `0x07A39862C7903367` | `VAL-03`, `VAL-05`, `VAL-07`, `VAL-09` | 3 of 4 |
-| `VAL-08` | Regional Warehouse Authority | `0x08B28751B6A14478` | `VAL-03`, `VAL-06`, `VAL-08`, `VAL-10` | 3 of 4 |
-| `VAL-09` | Fair Price Shop Union Node | `0x09C17640A5B25589` | `VAL-04`, `VAL-07`, `VAL-09`, `VAL-11` | 3 of 4 |
-| `VAL-10` | State Monitoring Cell | `0x10D0653F94C36690` | `VAL-04`, `VAL-08`, `VAL-10`, `VAL-12` | 3 of 4 |
-| `VAL-11` | Citizen Oversight Organisation | `0x11E9542E83D47701` | `VAL-05`, `VAL-09`, `VAL-11`, `VAL-12` | 3 of 4 |
-| `VAL-12` | Security & Cryptography Validator | `0x12F8431D72E58812` | `VAL-06`, `VAL-10`, `VAL-11`, `VAL-12` | 3 of 4 |
+| Node ID | Institutional Identity | HTTP Endpoint | Quorum Slice Members | Threshold |
+| :--- | :--- | :---: | :--- | :---: |
+| `VAL-01` | Ministry of Consumer Affairs | `http://127.0.0.1:4001` | `VAL-01`, `VAL-02`, `VAL-03`, `VAL-04` | 3 of 4 |
+| `VAL-02` | National Informatics Centre (NIC) | `http://127.0.0.1:4002` | `VAL-02`, `VAL-03`, `VAL-05`, `VAL-06` | 3 of 4 |
+| `VAL-03` | State Food Commission | `http://127.0.0.1:4003` | `VAL-01`, `VAL-03`, `VAL-07`, `VAL-08` | 3 of 4 |
+| `VAL-04` | Civil Supplies Corporation | `http://127.0.0.1:4004` | `VAL-01`, `VAL-04`, `VAL-09`, `VAL-10` | 3 of 4 |
+| `VAL-05` | District Administration Node | `http://127.0.0.1:4005` | `VAL-02`, `VAL-05`, `VAL-07`, `VAL-11` | 3 of 4 |
+| `VAL-06` | Auditor General Observer Node | `http://127.0.0.1:4006` | `VAL-02`, `VAL-06`, `VAL-08`, `VAL-12` | 3 of 4 |
+| `VAL-07` | Public Audit & Governance Node | `http://127.0.0.1:4007` | `VAL-03`, `VAL-05`, `VAL-07`, `VAL-09` | 3 of 4 |
+| `VAL-08` | Regional Warehouse Authority | `http://127.0.0.1:4008` | `VAL-03`, `VAL-06`, `VAL-08`, `VAL-10` | 3 of 4 |
+| `VAL-09` | Fair Price Shop Union Node | `http://127.0.0.1:4009` | `VAL-04`, `VAL-07`, `VAL-09`, `VAL-11` | 3 of 4 |
+| `VAL-10` | State Monitoring Cell | `http://127.0.0.1:4010` | `VAL-04`, `VAL-08`, `VAL-10`, `VAL-12` | 3 of 4 |
+| `VAL-11` | Citizen Oversight Organisation | `http://127.0.0.1:4011` | `VAL-05`, `VAL-09`, `VAL-11`, `VAL-12` | 3 of 4 |
+| `VAL-12` | Security & Cryptography Validator | `http://127.0.0.1:4012` | `VAL-06`, `VAL-10`, `VAL-11`, `VAL-12` | 3 of 4 |
 
 ### Mathematical Quorum Logic
 1. **Quorum Slice:** Each validator $v \in V$ defines a slice $\mathcal{S}(v) \subseteq V$ containing itself and trusted peers. A slice is satisfied if $|S \cap U| \ge \text{threshold}(v)$.
 2. **Quorum ($U \subseteq V$):** A candidate set $U$ is a quorum if $\forall v \in U, \exists S \in \mathcal{S}(v)$ such that $S \subseteq U$.
 3. **Consensus Round:**
-   $$\text{Proposal } P \longrightarrow \text{Online Nodes Vote } \longrightarrow \text{Slice Evaluation } \longrightarrow \text{Quorum Discovery } \longrightarrow \text{Block Sealed}$$
+   $$\text{Proposal } P \longrightarrow \text{Validator Nodes Vote } \longrightarrow \text{Slice Evaluation } \longrightarrow \text{Quorum Discovery } \longrightarrow \text{Block Mined}$$
 
 ### Validator Failure Demonstration
 - **Tolerating Faults:** If `VAL-05` and `VAL-06` go `Offline`, the remaining 10 nodes still satisfy their overlapping quorum slices and reach consensus ($10 / 12 \ge 75\%$).
@@ -281,7 +294,7 @@ The seed script creates pre-configured demo user accounts:
 
 ## 8. Complete API Reference
 
-### Authentication
+### Authentication & Profiles
 - `POST /api/auth/register` — Register new user account (`username`, `password`, `role`, `name`).
 - `POST /api/auth/login` — Login with credentials, returns JWT token.
 - `GET /api/auth/me` — Return profile of authenticated user.
@@ -289,19 +302,22 @@ The seed script creates pre-configured demo user accounts:
 ### Beneficiaries
 - `GET /api/beneficiaries` — Query beneficiaries with `search`, `region`, and `status` filters.
 - `GET /api/beneficiaries/:id` — Retrieve beneficiary record and monthly quota.
-- `POST /api/beneficiaries` — Register new citizen beneficiary.
-- `PUT /api/beneficiaries/:id` — Update beneficiary status or household size.
+- `POST /api/beneficiaries` — Register new citizen beneficiary *(Admin only)*.
+- `PUT /api/beneficiaries/:id` — Update beneficiary status or household size *(Admin only)*.
 
-### Fair Price Shops & Inventory
+### Fair Price Shops & Warehouses
 - `GET /api/shops` — List all 20 Fair Price Shops.
 - `GET /api/shops/:id` — Get shop details.
 - `GET /api/shops/:id/inventory` — Query shop stock levels.
-- `POST /api/shops/:id/inventory` — Add or replenish stock.
+- `POST /api/shops/:id/inventory` — Add or replenish stock *(Shop/Warehouse/Admin)*.
+- `GET /api/warehouses` — List all 5 Warehouses.
+- `GET /api/warehouses/:id` — Get warehouse details.
+- `POST /api/warehouses/:id/transfer` — Execute atomic stock transfer from warehouse to shop *(Warehouse/Admin)*.
 
 ### Transactions & PDS Distribution
 - `GET /api/transactions` — Query transaction registry with `search`, `commodity`, and `status` filters.
 - `GET /api/transactions/:id` — Get single transaction details.
-- `POST /api/transactions` — Execute PDS distribution (triggers FBA consensus and blockchain mining).
+- `POST /api/transactions` — Execute PDS distribution with atomic database transaction and FBA consensus *(Shop/Admin)*.
   ```json
   {
     "beneficiaryId": "BEN-1001",
@@ -321,16 +337,16 @@ The seed script creates pre-configured demo user accounts:
 ### Validators & FBA Consensus
 - `GET /api/validators` — List all 12 institutional validator nodes.
 - `GET /api/validators/:id` — Get validator trust configuration and quorum slice.
-- `POST /api/validators/:id/status` — Toggle node status (`Online`, `Offline`, `Degraded`).
+- `POST /api/validators/:id/status` — Toggle node status (`Online`, `Offline`, `Degraded`) *(Validator/Admin)*.
 - `GET /api/consensus/status` — Current network quorum status.
 - `GET /api/consensus/quorum` — Trust graph and recent rounds.
 
 ### Role Dashboards & Health
-- `GET /api/dashboard/admin` — Master telemetry, system counters, and node health.
-- `GET /api/dashboard/shop?shopId=FPS-102` — FPS inventory, dispatches, and recent transactions.
-- `GET /api/dashboard/citizen?beneficiaryId=BEN-1024` — Citizen quota meters and digital ration history.
-- `GET /api/dashboard/warehouse?warehouseId=WH-003` — Warehouse stock utilization.
-- `GET /api/dashboard/validator?validatorId=VAL-07` — Validator votes and consensus telemetry.
+- `GET /api/dashboard/admin` — Master telemetry, system counters, and node health *(Admin only)*.
+- `GET /api/dashboard/shop?shopId=FPS-102` — FPS inventory, dispatches, and recent transactions *(Shop/Admin)*.
+- `GET /api/dashboard/citizen?beneficiaryId=BEN-1024` — Citizen quota meters and digital ration history *(Citizen/Admin)*.
+- `GET /api/dashboard/warehouse?warehouseId=WH-003` — Warehouse stock utilization *(Warehouse/Admin)*.
+- `GET /api/dashboard/validator?validatorId=VAL-07` — Validator votes and consensus telemetry *(Validator/Admin)*.
 - `GET /api/health` — System status, database health, blockchain height, and validator count.
 - `GET /api/data` — Complete bootstrap snapshot for frontend clients.
 
@@ -339,6 +355,7 @@ The seed script creates pre-configured demo user accounts:
 ## 9. Academic & Demonstration Disclaimer
 
 This backend implementation has been developed as an advanced academic demonstration of a **Blockchain-Based Public Distribution System with Federated Byzantine Agreement (FBA)**.
-- All beneficiary identities, shop names, and validator profiles are **fictional and synthetic**. No real Aadhaar or personal citizen data is stored or processed.
-- The FBA consensus engine faithfully models the quorum slice and quorum intersection mathematics of Federated Byzantine Agreement within a single coordinated Node.js backend process for reproducible evaluation and academic examination.
+- **Academic Scope Statement:** The validator network is implemented as 12 independent HTTP processes on loopback for academic demonstration. It demonstrates validator communication, quorum slices, quorum evaluation, and consensus, but is not intended to represent a production WAN deployment.
+- **Synthetic Data:** All beneficiary identities, shop names, and validator profiles are **fictional and synthetic**. No real Aadhaar or personal citizen data is stored or processed.
+- **Consensus Fidelity:** The FBA consensus engine faithfully models the quorum slice and quorum intersection mathematics of Federated Byzantine Agreement with both in-process coordinator execution and real 12-node distributed HTTP microservices for academic evaluation.
 

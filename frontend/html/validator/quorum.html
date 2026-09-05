@@ -148,6 +148,15 @@
 
           <div style="font-size:13px; font-weight:700; margin-bottom:10px;">Trusted Slice Members:</div>
           <div id="quorum-slices-list"></div>
+
+          <div class="callout-card" style="margin-top:20px; padding:16px; border:1px solid var(--border-color); border-radius:8px; background:var(--surface-color);">
+            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-color);"><i class="bi bi-mortarboard-fill text-indigo"></i> Academic FBA Consensus Model</h4>
+            <ul style="font-size:12.5px; color:var(--text-muted); line-height:1.6; margin:0; padding-left:18px;">
+              <li><strong>Quorum:</strong> A set of validators in which every validator has at least one quorum slice contained within the set.</li>
+              <li><strong>Consensus:</strong> Agreement is accepted only when the configured global consensus requirement is satisfied (9 of 12 institutional nodes).</li>
+              <li><strong>Topology:</strong> 12 independent micro-validator nodes communicating via HTTP REST APIs with SHA-256 digital statement verification.</li>
+            </ul>
+          </div>
         </div>
 
       </div>
@@ -164,6 +173,7 @@
 
 <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
+<script src="../../js/api.js"></script>
 <script src="../../js/main.js"></script>
 <script src="../../js/dashboard.js"></script>
 <script src="../../js/validator.js"></script>

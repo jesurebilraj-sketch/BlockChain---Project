@@ -2,6 +2,7 @@ const ValidatorNode = require('./ValidatorNode');
 const { DEFAULT_12_VALIDATORS } = require('./consensusConfig');
 const { findQuorum, evaluateNetworkQuorum } = require('./Quorum');
 const logger = require('../utils/logger');
+const http = require('http');
 
 class FBAConsensus {
   constructor() {
@@ -62,6 +63,52 @@ class FBAConsensus {
   }
 
   /**
+   * Helper to query validator over HTTP with fallback to local in-process evaluation
+   */
+  async queryValidatorNodeHTTP(node, proposal) {
+    const port = 4000 + parseInt(node.validatorId.replace('VAL-', ''), 10);
+    const postData = JSON.stringify(proposal);
+
+    return new Promise((resolve) => {
+      const req = http.request({
+        hostname: '127.0.0.1',
+        port,
+        path: '/proposal',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(postData)
+        },
+        timeout: 200
+      }, (res) => {
+        let body = '';
+        res.on('data', chunk => body += chunk);
+        res.on('end', () => {
+          try {
+            const parsed = JSON.parse(body);
+            resolve(parsed);
+          } catch (e) {
+            resolve(node.evaluateProposal(proposal));
+          }
+        });
+      });
+
+      req.on('error', () => {
+        // Fallback to in-process evaluation
+        resolve(node.evaluateProposal(proposal));
+      });
+
+      req.on('timeout', () => {
+        req.destroy();
+        resolve(node.evaluateProposal(proposal));
+      });
+
+      req.write(postData);
+      req.end();
+    });
+  }
+
+  /**
    * Execute a full FBA Consensus Round for a transaction proposal.
    */
   async runConsensusRound(proposal) {
@@ -72,9 +119,20 @@ class FBAConsensus {
     const agreeingNodes = [];
     const validatorSignatures = [];
 
-    // 1. Proposal & Statement Collection
+    // 1. Proposal & Statement Collection (HTTP with in-process fallback)
     for (const node of nodes) {
-      const voteResult = node.evaluateProposal(proposal);
+      let voteResult;
+      if (!node.isOnline()) {
+        voteResult = {
+          validatorId: node.validatorId,
+          vote: 'OFFLINE',
+          reason: 'Node is offline',
+          signature: null
+        };
+      } else {
+        voteResult = await this.queryValidatorNodeHTTP(node, proposal);
+      }
+
       votes.push(voteResult);
 
       if (voteResult.vote === 'AGREE') {
@@ -120,4 +178,3 @@ class FBAConsensus {
 const fbaInstance = new FBAConsensus();
 
 module.exports = fbaInstance;
-

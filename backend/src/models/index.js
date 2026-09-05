@@ -8,9 +8,7 @@ const Inventory = require('./Inventory');
 const Transaction = require('./Transaction');
 const Block = require('./Block');
 const Validator = require('./Validator');
-
-// Define relationships where applicable
-// Note: Keeping IDs decoupled through strings (e.g. beneficiaryId, shopId) aligns with PDS & Blockchain architecture
+const StockTransfer = require('./StockTransfer');
 
 const db = {
   sequelize,
@@ -23,7 +21,8 @@ const db = {
   Inventory,
   Transaction,
   Block,
-  Validator
+  Validator,
+  StockTransfer
 };
 
 module.exports = db;

@@ -86,11 +86,11 @@
       <div class="page-header">
         <div>
           <h1>Blockchain Ledger Explorer</h1>
-          <p>Real-time audit log of all distribution blocks and validator consensus rounds.</p>
+          <p>Real-time cryptographic audit log of all distribution blocks, Merkle roots, and FBA consensus rounds.</p>
         </div>
-        <div class="page-header-meta">
-          <span class="meta-chip"><i class="bi bi-hdd-network"></i> 12 / 12 Nodes Online</span>
-          <span class="meta-chip mono"><i class="bi bi-diagram-3"></i> Height #4281</span>
+        <div class="page-header-meta" style="display:flex;align-items:center;gap:10px;">
+          <span id="chain-validity-badge" class="badge badge-success" style="font-size:13px;padding:7px 14px;"><i class="bi bi-patch-check-fill"></i> CHAIN VALID</span>
+          <button class="btn btn-primary btn-sm" id="btn-validate-chain" type="button" onclick="validateChainLive()"><i class="bi bi-shield-check"></i> Re-Verify Ledger</button>
         </div>
       </div>
 
@@ -98,19 +98,19 @@
       <div class="explorer-header">
         <div class="kpi-grid cols-5" style="margin-bottom:0;">
           <div class="stat-card">
-            <div class="stat-card-label">Current Block</div>
-            <div class="stat-card-value mono">#4281</div>
+            <div class="stat-card-label">Latest Block</div>
+            <div class="stat-card-value mono" id="kpi-latest-block">#4</div>
             <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-check-circle"></i> Live</span></div>
           </div>
           <div class="stat-card">
             <div class="stat-card-label">Total Blocks</div>
-            <div class="stat-card-value" data-counter="4281">0</div>
-            <div class="stat-card-foot"><span class="caption">Since Genesis</span></div>
+            <div class="stat-card-value" id="kpi-total-blocks">5</div>
+            <div class="stat-card-foot"><span class="caption">Since Genesis #0</span></div>
           </div>
           <div class="stat-card">
             <div class="stat-card-label">Total Verified Txns</div>
-            <div class="stat-card-value" data-counter="1284">0</div>
-            <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short"></i> Today</span></div>
+            <div class="stat-card-value" id="kpi-total-txns">5</div>
+            <div class="stat-card-foot"><span class="trend is-up"><i class="bi bi-arrow-up-short"></i> On-Chain</span></div>
           </div>
           <div class="stat-card">
             <div class="stat-card-label">Active Validators</div>
@@ -125,7 +125,7 @@
         </div>
 
         <div class="explorer-search-row">
-          <input type="text" class="form-input" id="explorer-search-input" placeholder="Search by Block # (e.g. 4281) or Transaction ID (e.g. TXN-004281)" />
+          <input type="text" class="form-input" id="explorer-search-input" placeholder="Search by Block # (e.g. 0, 4) or Transaction ID (e.g. TXN-004281)" />
           <button class="btn btn-primary" id="explorer-search-btn" type="button"><i class="bi bi-search"></i> Search Ledger</button>
         </div>
       </div>
@@ -135,59 +135,21 @@
         <div class="section-block-head">
           <div>
             <h2>Cryptographic Block Chain Sequence</h2>
-            <div class="sub">Each block cryptographically seals and references the hash of the preceding block.</div>
+            <div class="sub">Each block cryptographically seals and references the SHA-256 hash of the preceding block.</div>
           </div>
         </div>
         <div class="chain-flow-container">
-          <div class="chain-flow-track">
-            <div class="chain-block is-genesis" onclick="inspectBlock(0)">
-              <div class="chain-block-label">Genesis Block</div>
-              <div class="chain-block-id">#0000</div>
-              <div class="chain-block-row"><span>Hash</span><span class="mono">0x0000...0000</span></div>
-              <span class="chain-status"><i class="bi bi-check-circle-fill"></i> Genesis Sealed</span>
-            </div>
-            <i class="bi bi-arrow-right chain-flow-arrow"></i>
-            <div class="chain-block" onclick="inspectBlock(4278)">
-              <div class="chain-block-label">Block Height</div>
-              <div class="chain-block-id">#4278</div>
-              <div class="chain-block-row"><span>Txns</span><span>29</span></div>
-              <div class="chain-block-row"><span>Hash</span><span class="mono">0xa04b...cd95</span></div>
-              <span class="chain-status"><i class="bi bi-check-circle-fill"></i> Verified (12/12)</span>
-            </div>
-            <i class="bi bi-arrow-right chain-flow-arrow"></i>
-            <div class="chain-block" onclick="inspectBlock(4279)">
-              <div class="chain-block-label">Block Height</div>
-              <div class="chain-block-id">#4279</div>
-              <div class="chain-block-row"><span>Txns</span><span>51</span></div>
-              <div class="chain-block-row"><span>Hash</span><span class="mono">0xc30e...1042</span></div>
-              <span class="chain-status"><i class="bi bi-check-circle-fill"></i> Verified (11/12)</span>
-            </div>
-            <i class="bi bi-arrow-right chain-flow-arrow"></i>
-            <div class="chain-block" onclick="inspectBlock(4280)">
-              <div class="chain-block-label">Block Height</div>
-              <div class="chain-block-id">#4280</div>
-              <div class="chain-block-row"><span>Txns</span><span>38</span></div>
-              <div class="chain-block-row"><span>Hash</span><span class="mono">0x73ab...ef21</span></div>
-              <span class="chain-status"><i class="bi bi-check-circle-fill"></i> Verified (12/12)</span>
-            </div>
-            <i class="bi bi-arrow-right chain-flow-arrow"></i>
-            <div class="chain-block is-latest" onclick="inspectBlock(4281)">
-              <div class="chain-block-label">Latest Block</div>
-              <div class="chain-block-id">#4281</div>
-              <div class="chain-block-row"><span>Txns</span><span>42</span></div>
-              <div class="chain-block-row"><span>Hash</span><span class="mono">0x8a7f...92bd</span></div>
-              <span class="chain-status"><i class="bi bi-broadcast"></i> Verified (12/12)</span>
-            </div>
+          <div class="chain-flow-track" id="chain-flow-track">
+            <!-- Dynamically Rendered by blockchain.js -->
           </div>
         </div>
       </div>
-
       <!-- Verified Blocks Table -->
       <div class="section-block">
         <div class="section-block-head">
           <div>
             <h2>Verified Block Registry</h2>
-            <div class="sub">Click any block row to inspect Merkle roots, signatures, and included distribution records.</div>
+            <div class="sub">Click any block row to inspect Merkle roots, validator signatures, and included distribution records.</div>
           </div>
         </div>
         <div class="table-card">
@@ -205,47 +167,8 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><span class="mono font-bold">#4281</span></td>
-                  <td><span class="hash-badge">0x8a7f...92bd</span></td>
-                  <td><span class="mono muted">0x73ab...ef21</span></td>
-                  <td><strong>42 txns</strong></td>
-                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
-                  <td>2026-08-30 09:42 AM</td>
-                  <td><span class="badge badge-success">Verified</span></td>
-                  <td><button class="btn-action-sm" onclick="inspectBlock(4281)"><i class="bi bi-eye"></i> Inspect</button></td>
-                </tr>
-                <tr>
-                  <td><span class="mono font-bold">#4280</span></td>
-                  <td><span class="hash-badge">0x73ab...ef21</span></td>
-                  <td><span class="mono muted">0xc30e...1042</span></td>
-                  <td><strong>38 txns</strong></td>
-                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
-                  <td>2026-08-30 09:10 AM</td>
-                  <td><span class="badge badge-success">Verified</span></td>
-                  <td><button class="btn-action-sm" onclick="inspectBlock(4280)"><i class="bi bi-eye"></i> Inspect</button></td>
-                </tr>
-                <tr>
-                  <td><span class="mono font-bold">#4279</span></td>
-                  <td><span class="hash-badge">0xc30e...1042</span></td>
-                  <td><span class="mono muted">0xa04b...cd95</span></td>
-                  <td><strong>51 txns</strong></td>
-                  <td><span class="badge badge-info">11 / 12 Nodes</span></td>
-                  <td>2026-08-30 08:35 AM</td>
-                  <td><span class="badge badge-success">Verified</span></td>
-                  <td><button class="btn-action-sm" onclick="inspectBlock(4279)"><i class="bi bi-eye"></i> Inspect</button></td>
-                </tr>
-                <tr>
-                  <td><span class="mono font-bold">#4278</span></td>
-                  <td><span class="hash-badge">0xa04b...cd95</span></td>
-                  <td><span class="mono muted">0x54ec...bb31</span></td>
-                  <td><strong>29 txns</strong></td>
-                  <td><span class="badge badge-success">12 / 12 Nodes</span></td>
-                  <td>2026-08-30 08:08 AM</td>
-                  <td><span class="badge badge-success">Verified</span></td>
-                  <td><button class="btn-action-sm" onclick="inspectBlock(4278)"><i class="bi bi-eye"></i> Inspect</button></td>
-                </tr>
+              <tbody id="blockchain-table-body">
+                <!-- Dynamically populated by blockchain.js -->
               </tbody>
             </table>
           </div>
@@ -278,6 +201,7 @@
 
 <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
+<script src="../js/api.js"></script>
 <script src="../js/main.js"></script>
 <script src="../js/dashboard.js"></script>
 <script src="../js/blockchain.js"></script>

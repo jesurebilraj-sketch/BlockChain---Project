@@ -30,24 +30,27 @@ class BlockchainService {
   }
 
   validateChain() {
+    const check = require('../blockchain/validation').validateChain(this.blockchain.chain);
     return {
-      isValid: this.blockchain.isChainValid(),
+      isValid: check.isValid,
+      reason: check.reason || null,
+      brokenBlockIndex: check.brokenBlockIndex ?? null,
       blockCount: this.blockchain.chain.length,
-      latestBlock: this.blockchain.getLatestBlock().toJSON()
+      latestBlock: this.blockchain.getLatestBlock() ? this.blockchain.getLatestBlock().toJSON() : null
     };
   }
 
-  async addBlock(transactions, validatorSignatures = []) {
+  async addBlock(transactions, validatorSignatures = [], transaction = null) {
     // If chain is uninitialized or DB has newer blocks, sync first
-    const dbCount = await BlockModel.count();
+    const dbCount = await BlockModel.count({ transaction });
     if (dbCount > this.blockchain.chain.length) {
       await this.init();
     }
 
     const newBlock = this.blockchain.addBlock(transactions, validatorSignatures);
 
-    // Persist to database
-    await BlockModel.create(newBlock.toJSON());
+    // Persist to database within transaction
+    await BlockModel.create(newBlock.toJSON(), { transaction });
     logger.info(`Block #${newBlock.blockNumber} persisted to database.`);
 
     return newBlock.toJSON();
